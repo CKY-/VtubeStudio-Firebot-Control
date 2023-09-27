@@ -1,33 +1,89 @@
 import { Firebot } from "@crowbartools/firebot-custom-scripts-types";
+import { initRemote } from "./vtube-remote";
+import { initLogger, logger } from "./logger";
+import { setupFrontendListeners } from "./firebot/communicator";
+import { VTUBEEventSource } from "./firebot/events/vtube-event-source";
 
 interface Params {
-  message: string;
+  ipAddress: string;
+  port: number;
+  token: string;
+  logging: boolean;
 }
 
 const script: Firebot.CustomScript<Params> = {
   getScriptManifest: () => {
     return {
-      name: "Starter Custom Script",
-      description: "A starter custom script for build",
-      author: "SomeDev",
-      version: "1.0",
+      name: "Vtube Studio Script",
+      description: "Vtube Studio Script for contling vtube",
+      author: "CKY",
+      version: "1.0.1",
       firebotVersion: "5",
+      startupOnly: true,
     };
   },
+
   getDefaultParameters: () => {
     return {
-      message: {
+      ipAddress: {
         type: "string",
-        default: "Hello World!",
-        description: "Message",
-        secondaryDescription: "Enter a message here",
+        default: "localhost",
+        description: "IP Address",
+        secondaryDescription:
+          "The ip address of the computer running Vtube. Use 'localhost' for the same computer.",
+      },
+      port: {
+        type: "number",
+        default: 4444,
+        description: "Port",
+        secondaryDescription:
+          "Port the Vtube Websocket is running on. Default is 4444.",
+      },
+      token: {
+        type: "string",
+        default: "",
+        description: "Token",
+        secondaryDescription:
+          "Token of the Vtube Websocket. Leave this blank if you cant find it.",
+      },
+      logging: {
+        type: "boolean",
+        default: true,
+        description: "Enable logging for Vtube Errors",
       },
     };
   },
-  run: (runRequest) => {
-    const { logger } = runRequest.modules;
-    logger.info(runRequest.parameters.message);
+
+  run: ({ parameters, modules }) => {
+    initLogger(modules.logger);
+
+    logger.info("Starting Vtube Control...");
+
+    const {
+      effectManager,
+      eventManager,
+      frontendCommunicator,
+      replaceVariableManager,
+      eventFilterManager,
+    } = modules;
+
+    initRemote(
+      {
+        ip: parameters.ipAddress,
+        port: parameters.port,
+        token: parameters.token,
+        logging: parameters.logging,
+        
+      },
+      {
+        eventManager,
+      }
+    );
+    
+    setupFrontendListeners(frontendCommunicator);
+    //effectManager.registerEffect();
+    eventManager.registerEventSource(VTUBEEventSource);
+    //replaceVariableManager.registerReplaceVariable();
   },
 };
-
 export default script;
