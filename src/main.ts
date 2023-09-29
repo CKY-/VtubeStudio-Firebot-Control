@@ -34,10 +34,10 @@ const script: Firebot.CustomScript<Params> = {
       },
       port: {
         type: "number",
-        default: 4444,
+        default: 8001,
         description: "Port",
         secondaryDescription:
-          "Port the Vtube Websocket is running on. Default is 4444.",
+          "Port the Vtube Websocket is running on. Default is 8001.",
       },
       token: {
         type: "string",
