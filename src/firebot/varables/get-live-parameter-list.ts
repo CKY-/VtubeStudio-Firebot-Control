@@ -1,7 +1,7 @@
 import { ReplaceVariable } from "@crowbartools/firebot-custom-scripts-types/types/modules/replace-variable-manager";
-import { getLive2DParameterList } from "../vtube-remote";
+import { getLiveParameterList } from "../vtube-remote";
 
-export const getLive2DParameterListVarable: ReplaceVariable = {
+export const getLiveParameterListVarable: ReplaceVariable = {
     definition: {
         handle: "vtubeCurrentModel",
         description:
@@ -9,7 +9,7 @@ export const getLive2DParameterListVarable: ReplaceVariable = {
         possibleDataOutput: ["text"],
     },
     evaluator: async () => {
-        const Live2DParameterList = await getLive2DParameterList();
-        return JSON.stringify(Live2DParameterList) ?? "Unknown";
+        const LiveParameterList = await getLiveParameterList();
+        return JSON.stringify(LiveParameterList) ?? "Unknown";
     },
 };

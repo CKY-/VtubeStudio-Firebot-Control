@@ -92,7 +92,7 @@ export type HotkeyTriggerEffect = {
     itemInstanceID?: string
 };
 
-export type ExpressionState = {
+export type ExpressionStateEffect = {
     modelLoaded: boolean,
     modelName: string,
     modelID: string,
@@ -114,7 +114,7 @@ export type ExpressionState = {
     }[]
 }
 
-export type ExpressionActivation = {
+export type ExpressionActivationEffect = {
     expressionFile: string,
     active: boolean,
 };
@@ -195,7 +195,7 @@ export type ParameterValue = {
     name: string
 };
 
-export type Live2DParameterListVaraible = {
+export type LiveParameterListVaraible = {
     modelLoaded: boolean,
     modelName: string,
     modelID: string,

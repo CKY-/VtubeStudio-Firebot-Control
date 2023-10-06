@@ -7,7 +7,7 @@ import {
     getHotkeysInCurrentModel,
     getItemList,
     getCurrentModelPhysics,
-    getLive2DParameterList
+    getLiveParameterList
 } from "./vtube-remote";
 
 import {
@@ -17,7 +17,7 @@ import {
     HotkeysInCurrentModelVariable,
     ItemListVariable,
     GetCurrentModelPhysicsVariable,
-    Live2DParameterListVaraible
+    LiveParameterListVaraible
 } from "./types"
 
 export function setupFrontendListeners(
@@ -53,8 +53,8 @@ export function setupFrontendListeners(
         getCurrentModelPhysics
     );
 
-    frontendCommunicator.onAsync<never, Live2DParameterListVaraible>(
-        "vtube-get-live-2D-parameter-list",
-        getLive2DParameterList
+    frontendCommunicator.onAsync<never, LiveParameterListVaraible>(
+        "vtube-get-live-parameter-list",
+        getLiveParameterList
     );
 }

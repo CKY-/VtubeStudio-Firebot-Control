@@ -7,10 +7,11 @@ import {
     ArtMeshListVariable,
     HotkeysInCurrentModelVariable,
     CurrentModelVariable,
-    HotkeyTriggerEffect,
     ItemListVariable,
     GetCurrentModelPhysicsVariable,
-    Live2DParameterListVaraible,
+    LiveParameterListVaraible,
+    HotkeyTriggerEffect,
+    ExpressionStateEffect,
 } from "./types";
 
 import {
@@ -41,7 +42,7 @@ export let hotkeysInCurrentModel: HotkeysInCurrentModelVariable;
 export let hotkeyTrigger: HotkeyTriggerEffect;
 export let itemListVariable: ItemListVariable;
 export let currentModelPhysicsVariable: GetCurrentModelPhysicsVariable
-export let live2DParameterList: Live2DParameterListVaraible
+export let liveParameterList: LiveParameterListVaraible
 
 export function initRemote(
     {
@@ -92,12 +93,12 @@ export async function getHotkeysInCurrentModel(): Promise<HotkeysInCurrentModelV
     return hotkeysInCurrentModel;
 }
 
-export async function getLive2DParameterList(): Promise<Live2DParameterListVaraible> {
-    live2DParameterList = await vtube.live2DParameterList();
-    return live2DParameterList;
+export async function getLiveParameterList(): Promise<LiveParameterListVaraible> {
+    liveParameterList = await vtube.live2DParameterList();
+    return liveParameterList;
 }
 
-export async function getItemList( itemfiles = true, spots = true, inScene = true, fileName = "", instanceID = "" ): Promise<ItemListVariable> {
+export async function getItemList(itemfiles = true, spots = true, inScene = true, fileName = "", instanceID = ""): Promise<ItemListVariable> {
     let data = {
         includeAvailableItemFiles: itemfiles,
         includeAvailableSpots: spots,
@@ -106,19 +107,31 @@ export async function getItemList( itemfiles = true, spots = true, inScene = tru
         onlyItemsWithInstanceID: instanceID,
     }
     itemListVariable = await vtube.itemList(data);
-     return itemListVariable;
- }
+    return itemListVariable;
+}
 
-export async function triggerHotkey(key:string): Promise<HotkeyTriggerEffect> {
-    let data:{
-         hotkeyID: string; 
-         itemInstanceID ?: string;
+export async function triggerHotkey(key: string): Promise<HotkeyTriggerEffect> {
+    let data: {
+        hotkeyID: string;
+        itemInstanceID?: string;
     };
     data.hotkeyID = key
-    let config: IClientCallConfig 
+    let config: IClientCallConfig
     hotkeyTrigger = await vtube.hotkeyTrigger(data, config);
     return hotkeyTrigger;
-} 
+}
+
+export async function expressionState(details: boolean, file: string): Promise<ExpressionStateEffect> {
+    let data: {
+        details: boolean;
+        expressionFile?: string;
+    };
+    data.expressionFile = file;
+    data.details = details;
+    let config: IClientCallConfig
+    let expressionState = await vtube.expressionState(data, config);
+    return expressionState
+}
 
 async function maintainConnection(
     ip: string,
