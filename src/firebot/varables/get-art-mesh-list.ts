@@ -10,6 +10,6 @@ export const getArtMeshListVariable: ReplaceVariable = {
     },
     evaluator: async () => {
         const artMeshList = await getArtMeshList();
-        return artMeshList ?? "Unknown";
+        return JSON.stringify(artMeshList) ?? "Unknown";
     },
 };

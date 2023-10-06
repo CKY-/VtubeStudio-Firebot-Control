@@ -10,6 +10,6 @@ export const getAvailableModelsVariable: ReplaceVariable = {
     },
     evaluator: async () => {
         const availableModels = await getAvailableModels();
-        return availableModels ?? "Unknown";
+        return JSON.stringify(availableModels) ?? "Unknown";
     },
 };

@@ -10,6 +10,6 @@ export const getCurrentModelVarable: ReplaceVariable = {
     },
     evaluator: async () => {
         const currentModel = await getCurrentModel();
-        return currentModel ?? "Unknown";
+        return JSON.stringify(currentModel) ?? "Unknown";
     },
 };

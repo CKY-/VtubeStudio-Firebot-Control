@@ -9,6 +9,7 @@ import {
     CurrentModelVariable,
     HotkeyTriggerEffect,
     ItemListVariable,
+    GetCurrentModelPhysicsVariable,
 } from "./types";
 
 import {
@@ -38,6 +39,7 @@ export let currentModel: CurrentModelVariable;
 export let hotkeysInCurrentModel: HotkeysInCurrentModelVariable;
 export let hotkeyTrigger: HotkeyTriggerEffect;
 export let itemListVariable: ItemListVariable;
+export let currentModelPhysicsVariable: GetCurrentModelPhysicsVariable
 
 export function initRemote(
     {
@@ -76,6 +78,11 @@ export async function getArtMeshList(): Promise<ArtMeshListVariable> {
 export async function getCurrentModel(): Promise<CurrentModelVariable> {
     currentModel = await vtube.currentModel();
     return currentModel;
+}
+
+export async function getCurrentModelPhysics(): Promise<GetCurrentModelPhysicsVariable> {
+    currentModelPhysicsVariable = await vtube.getCurrentModelPhysics();
+    return currentModelPhysicsVariable;
 }
 
 export async function getHotkeysInCurrentModel(): Promise<HotkeysInCurrentModelVariable> {

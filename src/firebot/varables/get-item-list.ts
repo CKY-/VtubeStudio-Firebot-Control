@@ -32,6 +32,6 @@ export const getItemListVariable: ReplaceVariable = {
     },
     evaluator: async (_, includeAvailableItemFiles = true, includeAvailableSpots=true, includeItemInstancesInScene=true, onlyItemsWithFileName="", onlyItemsWithInstanceID="" ) => {
         const itemList = await getItemList(includeAvailableItemFiles, includeAvailableSpots, includeItemInstancesInScene, onlyItemsWithFileName, onlyItemsWithInstanceID);
-        return itemList ?? "Unknown";
+        return JSON.stringify(itemList) ?? "Unknown";
     },
 };

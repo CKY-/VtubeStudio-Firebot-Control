@@ -4,14 +4,16 @@ import {
     getAvailableModels,
     getCurrentModel,
     getHotkeysInCurrentModel,
-    getItemList
+    getItemList,
+    getCurrentModelPhysics
 } from "./vtube-remote";
 import {
     AvailableModelsVariable,
     ArtMeshListVariable,
     CurrentModelVariable,
     HotkeysInCurrentModelVariable,
-    ItemListVariable
+    ItemListVariable,
+    GetCurrentModelPhysicsVariable
 } from "./types"
 export function setupFrontendListeners(
     frontendCommunicator: ScriptModules["frontendCommunicator"]
@@ -30,7 +32,6 @@ export function setupFrontendListeners(
         "vtube-get-current-model",
         getCurrentModel
     );
-
    
     frontendCommunicator.onAsync<never, HotkeysInCurrentModelVariable>(
         "vtube-get-hotkeys-in-current-model",
@@ -38,7 +39,12 @@ export function setupFrontendListeners(
     );
 
     frontendCommunicator.onAsync<never, ItemListVariable>(
-        "obs-get-audio-sources",
+        "vtube-get-item-list",
         getItemList
+    );
+
+    frontendCommunicator.onAsync<never, GetCurrentModelPhysicsVariable>(
+        "vtube-get-current-model-physics",
+        getCurrentModelPhysics
     );
 }

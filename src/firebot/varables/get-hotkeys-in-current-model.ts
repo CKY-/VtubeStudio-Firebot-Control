@@ -10,6 +10,6 @@ export const getHotkeysInCurrentModelVaraible: ReplaceVariable = {
     },
     evaluator: async () => {
         const hotkeysInCurrentModel = await getHotkeysInCurrentModel();
-        return hotkeysInCurrentModel ?? "Unknown";
+        return JSON.stringify(hotkeysInCurrentModel) ?? "Unknown";
     },
 };
