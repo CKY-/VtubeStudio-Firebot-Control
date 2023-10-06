@@ -65,7 +65,7 @@ const script: Firebot.CustomScript<vTubeParams> = {
       fs,
       frontendCommunicator,
       replaceVariableManager,
-      eventFilterManager,
+     // eventFilterManager,
     } = modules;
 
     initRemote(
