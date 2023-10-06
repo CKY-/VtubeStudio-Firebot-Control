@@ -1,21 +1,20 @@
 import { Firebot } from "@crowbartools/firebot-custom-scripts-types";
-import { initRemote } from "./vtube-remote";
+import { initRemote } from "./firebot/vtube-remote";
 import { initLogger, logger } from "./logger";
 import { setupFrontendListeners } from "./firebot/communicator";
 import { VTUBEEventSource } from "./firebot/events/vtube-event-source";
+import { vTubeParams } from "./firebot/types";
+import { getItemListVariable } from "./firebot/varables/get-item-list";
+import { getAvailableModelsVariable } from "./firebot/varables/get-available-models";
+import { getArtMeshListVariable } from "./firebot/varables/get-art-mesh-list";
+import { getCurrentModelVarable } from "./firebot/varables/get-current-models";
+import { getHotkeysInCurrentModelVaraible } from "./firebot/varables/get-hotkeys-in-current-model";
 
-interface Params {
-  ipAddress: string;
-  port: number;
-  token: string;
-  logging: boolean;
-}
-
-const script: Firebot.CustomScript<Params> = {
+const script: Firebot.CustomScript<vTubeParams> = {
   getScriptManifest: () => {
     return {
       name: "Vtube Studio Script",
-      description: "Vtube Studio Script for contling vtube",
+      description: "Vtube Studio Script for controling vtube",
       author: "CKY",
       version: "1.0.1",
       firebotVersion: "5",
@@ -42,13 +41,13 @@ const script: Firebot.CustomScript<Params> = {
       token: {
         type: "string",
         default: "",
-        description: "Token",
+        description: "Token file",
         secondaryDescription:
-          "Token of the Vtube Websocket. Leave this blank if you cant find it.",
+          "Token of the Vtube Websocket. Create a file and use it.",
       },
       logging: {
         type: "boolean",
-        default: true,
+        default: false,
         description: "Enable logging for Vtube Errors",
       },
     };
@@ -56,34 +55,38 @@ const script: Firebot.CustomScript<Params> = {
 
   run: ({ parameters, modules }) => {
     initLogger(modules.logger);
-
     logger.info("Starting Vtube Control...");
 
     const {
       effectManager,
       eventManager,
+      fs,
       frontendCommunicator,
       replaceVariableManager,
       eventFilterManager,
     } = modules;
-
+// 
     initRemote(
       {
         ip: parameters.ipAddress,
-        port: parameters.port,
+        port: parameters.port, 
         token: parameters.token,
         logging: parameters.logging,
-        
       },
       {
         eventManager,
+        fs
       }
     );
-    
+
     setupFrontendListeners(frontendCommunicator);
     //effectManager.registerEffect();
     eventManager.registerEventSource(VTUBEEventSource);
-    //replaceVariableManager.registerReplaceVariable();
+    replaceVariableManager.registerReplaceVariable(getArtMeshListVariable);
+    replaceVariableManager.registerReplaceVariable(getAvailableModelsVariable);
+    replaceVariableManager.registerReplaceVariable(getCurrentModelVarable);
+    replaceVariableManager.registerReplaceVariable(getHotkeysInCurrentModelVaraible);
+    replaceVariableManager.registerReplaceVariable(getItemListVariable);
   },
 };
 export default script;

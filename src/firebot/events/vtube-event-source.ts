@@ -1,7 +1,18 @@
 import { EventSource } from "@crowbartools/firebot-custom-scripts-types/types/modules/event-manager";
-import { VTUBE_EVENT_SOURCE_ID, ModelLoadedEvent, TrackingStatusChangedEvent, BackgroundChangedEvent, ModelConfigChangedEvent, ModelMovedEvent, ModelOutlineEvent } from "../constants";
+import {
+    VTUBE_EVENT_SOURCE_ID,
+    ModelLoadedEvent,
+    TrackingStatusChangedEvent,
+    BackgroundChangedEvent,
+    ModelConfigChangedEvent,
+    ModelMovedEvent,
+    ModelOutlineEvent
+} from "../constants";
+import {
+    modeldata,
+} from "../types";
 
-
+let userdata: modeldata
 export const VTUBEEventSource: EventSource = {
     id: VTUBE_EVENT_SOURCE_ID,
     name: "VTUBE",
@@ -23,19 +34,21 @@ export const VTUBEEventSource: EventSource = {
             name: "VTUBE Background Changed",
             description: "When the background changes",
             manualMetadata: {},
-        }, 
+        },
         {
             id: ModelMovedEvent,
             name: "VTUBE Model Moved",
             description: "When the model moves",
-            manualMetadata: {},
-        }, 
+            manualMetadata: {
+                data: userdata,
+            },
+        },
         {
             id: ModelConfigChangedEvent,
             name: "VTUBE Model Config Changed",
             description: "When the model config changes",
             manualMetadata: {},
-        }, 
+        },
         {
             id: ModelOutlineEvent,
             name: "VTUBE Model Outlin Changed",

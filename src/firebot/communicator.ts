@@ -1,41 +1,44 @@
 import { ScriptModules } from "@crowbartools/firebot-custom-scripts-types";
 import {
-    //  getAllSources,
-    // getSceneList,
-    // getSceneCollectionList,
+    getArtMeshList,
     getAvailableModels,
-    AvailableModels,
-    // OBSSource,
-    // getSourcesWithFilters,
-    // getAudioSources,
-} from "../vtube-remote";
-
+    getCurrentModel,
+    getHotkeysInCurrentModel,
+    getItemList
+} from "./vtube-remote";
+import {
+    AvailableModelsVariable,
+    ArtMeshListVariable,
+    CurrentModelVariable,
+    HotkeysInCurrentModelVariable,
+    ItemListVariable
+} from "./types"
 export function setupFrontendListeners(
     frontendCommunicator: ScriptModules["frontendCommunicator"]
 ) {
-    frontendCommunicator.onAsync<never, AvailableModels>(
+    frontendCommunicator.onAsync<never, AvailableModelsVariable>(
         "vtube-get-available-models",
         getAvailableModels
     );
-    /*
-    frontendCommunicator.onAsync<never, string[]>(
-        "obs-get-scene-list",
-        getSceneList
+
+    frontendCommunicator.onAsync<never, ArtMeshListVariable>(
+        "vtube-get-art-mesh-list",
+        getArtMeshList
     );
 
-    frontendCommunicator.onAsync<never, string[]>(
-        "obs-get-scene-collection-list",
-        getSceneCollectionList
+    frontendCommunicator.onAsync<never, CurrentModelVariable>(
+        "vtube-get-current-model",
+        getCurrentModel
     );
 
-    frontendCommunicator.onAsync<never, Array<OBSSource>>(
-        "obs-get-sources-with-filters",
-        getSourcesWithFilters
+   
+    frontendCommunicator.onAsync<never, HotkeysInCurrentModelVariable>(
+        "vtube-get-hotkeys-in-current-model",
+        getHotkeysInCurrentModel
     );
 
-    frontendCommunicator.onAsync<never, Array<OBSSource>>(
+    frontendCommunicator.onAsync<never, ItemListVariable>(
         "obs-get-audio-sources",
-        getAudioSources
+        getItemList
     );
-    */
 }
