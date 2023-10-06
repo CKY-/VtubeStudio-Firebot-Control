@@ -9,6 +9,7 @@ import { getAvailableModelsVariable } from "./firebot/varables/get-available-mod
 import { getArtMeshListVariable } from "./firebot/varables/get-art-mesh-list";
 import { getCurrentModelVarable } from "./firebot/varables/get-current-models";
 import { getHotkeysInCurrentModelVaraible } from "./firebot/varables/get-hotkeys-in-current-model";
+import { getLive2DParameterListVarable } from "./firebot/varables/get-live-2d-parameter-list";
 
 const script: Firebot.CustomScript<vTubeParams> = {
   getScriptManifest: () => {
@@ -87,6 +88,7 @@ const script: Firebot.CustomScript<vTubeParams> = {
     replaceVariableManager.registerReplaceVariable(getCurrentModelVarable);
     replaceVariableManager.registerReplaceVariable(getHotkeysInCurrentModelVaraible);
     replaceVariableManager.registerReplaceVariable(getItemListVariable);
+    replaceVariableManager.registerReplaceVariable(getLive2DParameterListVarable);
   },
 };
 export default script;

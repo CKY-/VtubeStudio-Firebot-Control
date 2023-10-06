@@ -1,20 +1,25 @@
 import { ScriptModules } from "@crowbartools/firebot-custom-scripts-types";
+
 import {
     getArtMeshList,
     getAvailableModels,
     getCurrentModel,
     getHotkeysInCurrentModel,
     getItemList,
-    getCurrentModelPhysics
+    getCurrentModelPhysics,
+    getLive2DParameterList
 } from "./vtube-remote";
+
 import {
     AvailableModelsVariable,
     ArtMeshListVariable,
     CurrentModelVariable,
     HotkeysInCurrentModelVariable,
     ItemListVariable,
-    GetCurrentModelPhysicsVariable
+    GetCurrentModelPhysicsVariable,
+    Live2DParameterListVaraible
 } from "./types"
+
 export function setupFrontendListeners(
     frontendCommunicator: ScriptModules["frontendCommunicator"]
 ) {
@@ -46,5 +51,10 @@ export function setupFrontendListeners(
     frontendCommunicator.onAsync<never, GetCurrentModelPhysicsVariable>(
         "vtube-get-current-model-physics",
         getCurrentModelPhysics
+    );
+
+    frontendCommunicator.onAsync<never, Live2DParameterListVaraible>(
+        "vtube-get-live-2D-parameter-list",
+        getLive2DParameterList
     );
 }

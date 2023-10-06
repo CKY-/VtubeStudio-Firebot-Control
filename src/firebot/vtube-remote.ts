@@ -10,6 +10,7 @@ import {
     HotkeyTriggerEffect,
     ItemListVariable,
     GetCurrentModelPhysicsVariable,
+    Live2DParameterListVaraible,
 } from "./types";
 
 import {
@@ -40,6 +41,7 @@ export let hotkeysInCurrentModel: HotkeysInCurrentModelVariable;
 export let hotkeyTrigger: HotkeyTriggerEffect;
 export let itemListVariable: ItemListVariable;
 export let currentModelPhysicsVariable: GetCurrentModelPhysicsVariable
+export let live2DParameterList: Live2DParameterListVaraible
 
 export function initRemote(
     {
@@ -88,6 +90,11 @@ export async function getCurrentModelPhysics(): Promise<GetCurrentModelPhysicsVa
 export async function getHotkeysInCurrentModel(): Promise<HotkeysInCurrentModelVariable> {
     hotkeysInCurrentModel = await vtube.hotkeysInCurrentModel();
     return hotkeysInCurrentModel;
+}
+
+export async function getLive2DParameterList(): Promise<Live2DParameterListVaraible> {
+    live2DParameterList = await vtube.live2DParameterList();
+    return live2DParameterList;
 }
 
 export async function getItemList( itemfiles = true, spots = true, inScene = true, fileName = "", instanceID = "" ): Promise<ItemListVariable> {
