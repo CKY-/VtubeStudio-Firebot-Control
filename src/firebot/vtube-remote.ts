@@ -1,5 +1,5 @@
 import { ScriptModules } from "@crowbartools/firebot-custom-scripts-types";
-import { ApiClient,IApiClientOptions, IClientCallConfig } from "vtubestudio";
+import { ApiClient, IClientCallConfig } from "vtubestudio";
 import * as WebSocket from "ws";
 
 import {
@@ -22,9 +22,7 @@ import {
 } from "./constants";
 
 import { logger } from "../logger";
-import { EventEmitter } from "events";
-import { FilepathParameter } from "@crowbartools/firebot-custom-scripts-types/types/modules/firebot-parameters";
-import { config } from "process";
+
 let fs: ScriptModules["fs"]
 let vtube: ApiClient;
 let eventManager: ScriptModules["eventManager"];
