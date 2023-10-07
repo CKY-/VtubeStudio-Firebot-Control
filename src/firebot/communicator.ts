@@ -7,7 +7,8 @@ import {
     getHotkeysInCurrentModel,
     getItemList,
     getCurrentModelPhysics,
-    getLiveParameterList
+    getLiveParameterList,
+    getKeyList
 } from "./vtube-remote";
 
 import {
@@ -46,6 +47,11 @@ export function setupFrontendListeners(
     frontendCommunicator.onAsync<never, ItemListVariable>(
         "vtube-get-item-list",
         getItemList
+    );
+
+    frontendCommunicator.onAsync<never, string[]>(
+        "vtube-get-key-list",
+        getKeyList
     );
 
     frontendCommunicator.onAsync<never, GetCurrentModelPhysicsVariable>(

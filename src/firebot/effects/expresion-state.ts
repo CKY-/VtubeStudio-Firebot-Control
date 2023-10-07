@@ -14,7 +14,7 @@ export const expressionStateEffect: Firebot.EffectType<{
    */
     definition: {
         id: "vtube:expression-state",
-        name: "vtube Expression State",
+        name: "VTube Expression State",
         description: "Load an Expression State File",
         icon: "fad fa-file-edit",
         categories: ["common"],

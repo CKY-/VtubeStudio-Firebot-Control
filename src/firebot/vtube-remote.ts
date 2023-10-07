@@ -1,5 +1,5 @@
 import { ScriptModules } from "@crowbartools/firebot-custom-scripts-types";
-import { ApiClient, IClientCallConfig } from "vtubestudio";
+import { ApiClient, IClientCallConfig, RestrictedRawKey } from "vtubestudio";
 import * as WebSocket from "ws";
 
 import {
@@ -25,6 +25,7 @@ import {
 } from "./constants";
 
 import { logger } from "../logger";
+
 
 let fs: ScriptModules["fs"]
 let vtube: ApiClient;
@@ -114,9 +115,11 @@ export async function triggerHotkey(key: string): Promise<HotkeyTriggerEffect> {
     let data: {
         hotkeyID: string;
         itemInstanceID?: string;
+    } = { 
+        hotkeyID: key,
     };
-    data.hotkeyID = key
-    let config: IClientCallConfig
+
+    let config: IClientCallConfig 
     hotkeyTrigger = await vtube.hotkeyTrigger(data, config);
     return hotkeyTrigger;
 }
@@ -131,6 +134,12 @@ export async function expressionState(details: boolean, file: string): Promise<E
     let config: IClientCallConfig
     let expressionState = await vtube.expressionState(data, config);
     return expressionState
+}
+
+export async function getKeyList() {
+    let keys = Object.keys(RestrictedRawKey)  
+    logger.error("keys",keys)
+    return keys
 }
 
 async function maintainConnection(
