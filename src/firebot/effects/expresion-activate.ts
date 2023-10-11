@@ -1,20 +1,20 @@
 "use strict";
 import { Firebot } from "@crowbartools/firebot-custom-scripts-types";
-import { expressionState } from "../vtube-remote"
+import { triggerExpressionActivation } from "../vtube-remote"
 /**
  * The Expression State Effect
  */
-export const expressionStateEffect: Firebot.EffectType<{
-    details: boolean,
+export const expressionActivationEffect: Firebot.EffectType<{
+    activate: boolean,
     filepath: string
 }> = {
     /**
     * The definition of the Effect
     */
     definition: {
-        id: "vtube:expression-state",
-        name: "VTube Expression State",
-        description: "Load an Expression State File",
+        id: "vtube:expression-activate",
+        name: "VTube Expression Activation",
+        description: "Activate an Expression State File",
         icon: "fad fa-file-edit",
         categories: ["common"],
     },
@@ -29,8 +29,8 @@ export const expressionStateEffect: Firebot.EffectType<{
 
         <eos-container header="Options" pad-top="true">
             <div style="padding-top:15px">
-                <label class="control-fb control--checkbox"> Details 
-                    <input type="checkbox" ng-model="effect.details">
+                <label class="control-fb control--checkbox"> Activate 
+                    <input type="checkbox" ng-model="effect.activate">
                     <div class="control__indicator"></div>
                 </label>
             </div>
@@ -41,8 +41,8 @@ export const expressionStateEffect: Firebot.EffectType<{
     * Port over from effectHelperService.js
     */
     optionsController: ($scope) => {
-        if ($scope.effect.details == null) {
-            $scope.effect.details = false;
+        if ($scope.effect.activate == null) {
+            $scope.effect.activate = false;
         }
     },
     /**
@@ -60,7 +60,7 @@ export const expressionStateEffect: Firebot.EffectType<{
     * When the effect is triggered by something
     */
     onTriggerEvent: async event => {
-        await expressionState(event.effect.details, event.effect.filepath);
+        await triggerExpressionActivation(event.effect.filepath, event.effect.activate);
         return true;
     }
 };

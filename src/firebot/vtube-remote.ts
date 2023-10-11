@@ -12,6 +12,8 @@ import {
     LiveParameterListVaraible,
     HotkeyTriggerEffect,
     ExpressionStateEffect,
+    ExpressionActivationEffect,
+    MoveModelEffect,
 } from "./types";
 
 import {
@@ -44,6 +46,7 @@ export let hotkeyTrigger: HotkeyTriggerEffect;
 export let itemListVariable: ItemListVariable;
 export let currentModelPhysicsVariable: GetCurrentModelPhysicsVariable
 export let liveParameterList: LiveParameterListVaraible
+export let expressionActivation: ExpressionActivationEffect
 
 export function initRemote(
     {
@@ -120,8 +123,37 @@ export async function triggerHotkey(key: string): Promise<HotkeyTriggerEffect> {
     };
 
     let config: IClientCallConfig 
-    hotkeyTrigger = await vtube.hotkeyTrigger(data, config);
+    let hotkeyTrigger = await vtube.hotkeyTrigger(data, config);
     return hotkeyTrigger;
+}
+
+export async function moveModel(
+    timeInSeconds: number,
+    valuesAreRelativeToModel: boolean,
+    positionX?: number,
+    positionY?: number,
+    rotation?: number,
+    size?: number
+    ): Promise<void> {
+    let data: {
+        timeInSeconds: number;
+        valuesAreRelativeToModel: boolean;
+        positionX?: number;
+        positionY?: number;
+        rotation?: number;
+        size?: number;
+    } = {
+        timeInSeconds: timeInSeconds,
+        valuesAreRelativeToModel: valuesAreRelativeToModel,
+        positionX: positionX,
+        positionY: positionY,
+        rotation: rotation,
+        size: size,
+    };
+
+    let config: IClientCallConfig
+    let modelMove = await vtube.moveModel(data, config);
+    return modelMove;
 }
 
 export async function expressionState(details: boolean, file: string): Promise<ExpressionStateEffect> {
@@ -136,10 +168,14 @@ export async function expressionState(details: boolean, file: string): Promise<E
     return expressionState
 }
 
-export async function getKeyList() {
-    let keys = Object.keys(RestrictedRawKey)  
-    logger.error("keys",keys)
-    return keys
+export async function triggerExpressionActivation(file:string, active:boolean) {
+    let data: {
+        expressionFile: string;
+        active: boolean;
+    };
+    let config: IClientCallConfig
+    let expressionActivation = await vtube.expressionActivation(data, config);
+    return expressionActivation;
 }
 
 async function maintainConnection(

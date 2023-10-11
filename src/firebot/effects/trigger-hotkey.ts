@@ -1,18 +1,17 @@
 "use strict";
 import { Firebot } from "@crowbartools/firebot-custom-scripts-types";
-import { HotkeysInCurrentModelVariable } from "../types";
+import { HotkeysInCurrentModelVariable, AvailableHotkeys} from "../types";
 import { triggerHotkey } from "../vtube-remote"
-
-
 /**
- * The File Writer effect
- */
+* The Trigger Hotkey Effect
+*/
 export const triggerHotkeyEffect: Firebot.EffectType<{
     keyName: string
+    keyID: string
 }> = {
     /**
-   * The definition of the Effect
-   */
+    * The definition of the Effect
+    */
     definition: {
         id: "vtube:trigger-hotkey",
         name: "VTube Trigger Hotkey",
@@ -26,58 +25,61 @@ export const triggerHotkeyEffect: Firebot.EffectType<{
     */
     optionsTemplate: `
       <eos-container header="Hotkey selection">
-          <div class="btn-group" uib-dropdown>
-             <button type="button" class="btn btn-default" uib-dropdown-toggle>
-             {{effect.keyName}} <span class="caret"></span>
-             </button>
-             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                <li role="menuitem" ng-repeat="key in keyCollections.availableHotkeys" ng-click="selectKey(key.hotkeyID)">
-                    <a href>{{key.name}}</a>
-                </li>
-             </ul>
-          </div>
+        <ui-select ng-model="selected" on-select="selectKey($select.selected.hotkeyID, $select.selected.name)">
+          <ui-select-match placeholder="Select a HotKey...">{{$select.selected.name}}</ui-select-match>
+          <ui-select-choices repeat="key in keyCollections.availableHotkeys | filter: {name: $select.search}">
+            <div ng-bind-html="key.name | highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
+          <p>
+            <button class="btn btn-link" ng-click="getHotkeysInCurrentModel()">Refresh Hotkey Collections</button>
+            <span class="muted">(Make sure VTube Studio is running and Connected)</span>
+          </p>
+      </eos-container>
+      <eos-container pad-top="true" class="ng-isolate-scope">
+            <div class="effect-info alert alert-warning ng-scope">
+              Note: All hotkeys must be named in VTube Studio. 
+            </div>
       </eos-container>
     `,
     /**
-   * The controller for the front end Options
-   * Port over from effectHelperService.js
-   */
+    * The controller for the front end Options
+    * Port over from effectHelperService.js
+    */
     optionsController: ($scope: any, backendCommunicator: any, $q: any) => {
         $scope.keyCollections = [];
 
-        $scope.selectKey = (key: string) => {
-            $scope.effect.keyName = key;
+        $scope.selectKey = (keyID: string, keyName:string) => {
+            $scope.effect.keyID = keyID;
+            $scope.effect.keyName = keyName;
         };
-//{"modelLoaded":true,"modelName":"hijiki","modelID":"57ac6bef91f146029aae3a2ee6d03f51","availableHotkeys":[{"name":"BottomRight","type":"MoveModel","description":"Moves the Live2D model","file":"","hotkeyID":"6827ade81329413d80076dbf5984f6a1","keyCombination":[],"onScreenButtonID":1}]}
         $scope.getHotkeysInCurrentModel = () => {
             $q.when(backendCommunicator.fireEventAsync("vtube-get-hotkeys-in-current-model")).then(
                 (keyCollections: HotkeysInCurrentModelVariable) => {
                     $scope.keyCollections = keyCollections ?? [];
+                    $scope.selected = $scope.keyCollections.availableHotkeys.find((key: { name: AvailableHotkeys[]; }) =>
+                        key.name === $scope.effect.keyName);
                 }
             );
         };
         $scope.getHotkeysInCurrentModel();
     },
     /**
-   * When the effect is triggered by something
-   * Used to validate fields in the option template.
-   */
+    * When the effect is triggered by something
+    * Used to validate fields in the option template.
+    */
     optionsValidator: effect => {
         const errors = [];
         if (effect.keyName == null || effect.keyName === "") {
             errors.push("Please select a key.");
         }
-        // const keyValueArray = [];
-        // if (!keyValueArray.includes(effect.keyName)) {
-        //     errors.push("Please select a key that is not Restricted.");
-        // }
         return errors;
     },
     /**
-   * When the effect is triggered by something
-   */
+    * When the effect is triggered by something
+    */
     onTriggerEvent: async event => {
-        await triggerHotkey(event.effect.keyName);
+        await triggerHotkey(event.effect.keyID);
         return true;
     }
 };

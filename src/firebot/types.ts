@@ -1,3 +1,4 @@
+import { type } from "os";
 import { HotkeyType, ILive2DParameter, ItemType, IVTSParameter, RestrictedRawKey } from "vtubestudio/lib/types";
 
 export type vTubeSettings = {
@@ -30,7 +31,7 @@ export type modeldata = {
     }
 }
 
-export type CurrentModelVariable =  {
+export type CurrentModelVariable = {
     modelLoaded: boolean,
     modelName: string,
     modelID: string,
@@ -63,6 +64,7 @@ export type AvailableModelsVariable = {
     }[]
 };
 
+
 export type MoveModelEffect = {
     timeInSeconds: number,
     valuesAreRelativeToModel: boolean,
@@ -76,19 +78,21 @@ export type HotkeysInCurrentModelVariable = {
     modelLoaded: boolean,
     modelName: string,
     modelID: string,
-    availableHotkeys: {
-        name: string,
-        type: keyof typeof HotkeyType,
-        description: string,
-        file: string,
-        hotkeyID: string,
-        keyCombination: RestrictedRawKey[],
-        onScreenButtonID: number,
-    }[]
+    availableHotkeys: AvailableHotkeys[]
+}
+
+export type AvailableHotkeys = {
+    name: string,
+    type: keyof typeof HotkeyType,
+    description: string,
+    file: string,
+    hotkeyID: string,
+    keyCombination: RestrictedRawKey[],
+    onScreenButtonID: number
 }
 
 export type HotkeyTriggerEffect = {
-    hotkeyID: string
+    hotkeyID: string,
     itemInstanceID?: string
 };
 
@@ -357,18 +361,18 @@ export type EventSubscription = {
     config: object
 };
 
-export type ArtMeshSelection = {
+export type ArtMeshSelectionEffect = {
     textOverride?: string | null
     helpOverride?: string | null
     requestedArtMeshCount: number
     activeArtMeshes?: string[]
 };
 
-export type TestEvent =  {
+export type TestEvent = {
     testMessageForEvent?: string
 };
 
-export type ModelLoadedEvent =  {
+export type ModelLoadedEvent = {
     modelID?: string[]
 };
 
@@ -376,19 +380,19 @@ export type TrackingStatusChangedEvent = {
 
 };
 
-export type BackgroundChangedEvent =  {
+export type BackgroundChangedEvent = {
 
 };
 
-export type ModelConfigChangedEvent =  {
+export type ModelConfigChangedEvent = {
 
 };
 
-export type ModelMovedEvent =  {
+export type ModelMovedEvent = {
 
 };
 
-export type ModelOutlineEvent =  {
+export type ModelOutlineEvent = {
     modelName: string,
     modelID: string,
     convexHull: { x: number, y: number }[],

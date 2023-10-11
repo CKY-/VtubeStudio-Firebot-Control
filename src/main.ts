@@ -12,6 +12,8 @@ import { getHotkeysInCurrentModelVaraible } from "./firebot/varables/get-hotkeys
 import { getLiveParameterListVarable } from "./firebot/varables/get-live-parameter-list";
 import { expressionStateEffect } from "./firebot/effects/expresion-state";
 import { triggerHotkeyEffect } from "./firebot/effects/trigger-hotkey";
+import { moveModelEffect } from "./firebot/effects/move-model";
+import { expressionActivationEffect } from "./firebot/effects/expresion-activate";
 
 const script: Firebot.CustomScript<vTubeParams> = {
   getScriptManifest: () => {
@@ -84,7 +86,9 @@ const script: Firebot.CustomScript<vTubeParams> = {
 
     setupFrontendListeners(frontendCommunicator);
     effectManager.registerEffect(expressionStateEffect);
+    effectManager.registerEffect(expressionActivationEffect);
     effectManager.registerEffect(triggerHotkeyEffect);
+    effectManager.registerEffect(moveModelEffect);
     eventManager.registerEventSource(VTUBEEventSource);
     replaceVariableManager.registerReplaceVariable(getArtMeshListVariable);
     replaceVariableManager.registerReplaceVariable(getAvailableModelsVariable);
