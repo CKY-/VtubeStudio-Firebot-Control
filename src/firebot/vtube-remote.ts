@@ -14,6 +14,8 @@ import {
     ExpressionStateEffect,
     ExpressionActivationEffect,
     MoveModelEffect,
+    ItemMoveEffect,
+    movedItems,
 } from "./types";
 
 import {
@@ -111,6 +113,7 @@ export async function getItemList(itemfiles = true, spots = true, inScene = true
         onlyItemsWithInstanceID: instanceID,
     }
     itemListVariable = await vtube.itemList(data);
+    logger.error("Items", itemListVariable)
     return itemListVariable;
 }
 
@@ -118,11 +121,11 @@ export async function triggerHotkey(key: string): Promise<HotkeyTriggerEffect> {
     let data: {
         hotkeyID: string;
         itemInstanceID?: string;
-    } = { 
+    } = {
         hotkeyID: key,
     };
 
-    let config: IClientCallConfig 
+    let config: IClientCallConfig
     let hotkeyTrigger = await vtube.hotkeyTrigger(data, config);
     return hotkeyTrigger;
 }
@@ -134,7 +137,7 @@ export async function moveModel(
     positionY?: number,
     rotation?: number,
     size?: number
-    ): Promise<void> {
+): Promise<void> {
     let data: {
         timeInSeconds: number;
         valuesAreRelativeToModel: boolean;
@@ -168,7 +171,7 @@ export async function expressionState(details: boolean, file: string): Promise<E
     return expressionState
 }
 
-export async function triggerExpressionActivation(file:string, active:boolean) {
+export async function triggerExpressionActivation(file: string, active: boolean): Promise<void> {
     let data: {
         expressionFile: string;
         active: boolean;
@@ -176,6 +179,42 @@ export async function triggerExpressionActivation(file:string, active:boolean) {
     let config: IClientCallConfig
     let expressionActivation = await vtube.expressionActivation(data, config);
     return expressionActivation;
+}
+
+export async function moveItem(itemsToMove: {
+    itemInstanceID: string
+    timeInSeconds?: number
+    fadeMode?: 'linear' | 'easeIn' | 'easeOut' | 'easeBoth' | 'overshoot' | 'zip'
+    positionX?: number
+    positionY?: number
+    size?: number
+    rotation?: number
+    order?: number
+    setFlip?: boolean
+    flip?: boolean
+    userCanStop?: boolean
+}[]): Promise<movedItems> {
+    let data: {
+        itemsToMove: {
+            itemInstanceID: string
+            timeInSeconds?: number
+            fadeMode?: 'linear' | 'easeIn' | 'easeOut' | 'easeBoth' | 'overshoot' | 'zip'
+            positionX?: number
+            positionY?: number
+            size?: number
+            rotation?: number
+            order?: number
+            setFlip?: boolean
+            flip?: boolean
+            userCanStop?: boolean
+        }[]
+    } = {
+        itemsToMove: itemsToMove
+    };
+    
+    let config: IClientCallConfig
+    let itemMove = await vtube.itemMove(data, config);
+    return itemMove;
 }
 
 async function maintainConnection(

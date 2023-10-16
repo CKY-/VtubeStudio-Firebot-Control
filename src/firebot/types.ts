@@ -354,6 +354,13 @@ export type ItemMoveEffect = {
         userCanStop?: boolean
     }[]
 };
+export type movedItems = {
+    movedItems: {
+        itemInstanceID: string;
+        success: boolean;
+        errorID: number;
+    }[];
+}
 
 export type EventSubscription = {
     eventName: string

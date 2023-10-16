@@ -14,6 +14,7 @@ import { expressionStateEffect } from "./firebot/effects/expresion-state";
 import { triggerHotkeyEffect } from "./firebot/effects/trigger-hotkey";
 import { moveModelEffect } from "./firebot/effects/move-model";
 import { expressionActivationEffect } from "./firebot/effects/expresion-activate";
+import { moveItemEffect } from "./firebot/effects/move-item";
 
 const script: Firebot.CustomScript<vTubeParams> = {
   getScriptManifest: () => {
@@ -89,6 +90,7 @@ const script: Firebot.CustomScript<vTubeParams> = {
     effectManager.registerEffect(expressionActivationEffect);
     effectManager.registerEffect(triggerHotkeyEffect);
     effectManager.registerEffect(moveModelEffect);
+    effectManager.registerEffect(moveItemEffect);
     eventManager.registerEventSource(VTUBEEventSource);
     replaceVariableManager.registerReplaceVariable(getArtMeshListVariable);
     replaceVariableManager.registerReplaceVariable(getAvailableModelsVariable);
