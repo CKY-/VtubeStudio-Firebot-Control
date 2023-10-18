@@ -1,5 +1,5 @@
 import { ScriptModules } from "@crowbartools/firebot-custom-scripts-types";
-import { ApiClient, IClientCallConfig, RestrictedRawKey } from "vtubestudio";
+import { ApiClient, IClientCallConfig} from "vtubestudio";
 import * as WebSocket from "ws";
 
 import {
@@ -16,6 +16,7 @@ import {
     MoveModelEffect,
     ItemMoveEffect,
     movedItems,
+    ItemLoadEffect
 } from "./types";
 
 import {
@@ -157,6 +158,57 @@ export async function moveModel(
     let config: IClientCallConfig
     let modelMove = await vtube.moveModel(data, config);
     return modelMove;
+}
+
+export async function loadItem(
+    fileName: string,
+    positionX?: number,
+    positionY?: number,
+    size?: number,
+    rotation?: number,
+    fadeTime?: number,
+    order?: number,
+    failIfOrderTaken?: boolean,
+    smoothing?: number,
+    censored?: boolean,
+    flipped?: boolean,
+    locked?: boolean,
+    unloadWhenPluginDisconnects?: boolean,
+
+): Promise<{ instanceID: string }> {
+    let data: {
+        fileName: string;
+        positionX?: number;
+        positionY?: number;
+        size?: number;
+        rotation?: number;
+        fadeTime?: number;
+        order?: number;
+        failIfOrderTaken?: boolean;
+        smoothing?: number;
+        censored?: boolean;
+        flipped?: boolean;
+        locked?: boolean;
+        unloadWhenPluginDisconnects?: boolean;
+    } = {
+        fileName: fileName,
+        positionX: positionX,
+        positionY: positionY,
+        size: size,
+        rotation: rotation,
+        fadeTime: fadeTime,
+        order: order,
+        failIfOrderTaken: failIfOrderTaken,
+        smoothing: smoothing,
+        censored: censored,
+        flipped: flipped,
+        locked: locked,
+        unloadWhenPluginDisconnects: unloadWhenPluginDisconnects,
+    };
+
+    let config: IClientCallConfig
+    let itemLoad = await vtube.itemLoad(data, config);
+    return itemLoad;
 }
 
 export async function expressionState(details: boolean, file: string): Promise<ExpressionStateEffect> {

@@ -44,7 +44,7 @@ export const moveItemEffect: Firebot.EffectType<{
               </ui-select>
       </eos-container>
       <eos-container header="Time to Position">       
-              <div class="input-group">
+              <div class="input-group" style="padding-bottom:10px">
                     <span class="input-group-addon" id="delay-length-effect-type">timeInSeconds</span>
                     <input ng-model="effect.itemsToMove.timeInSeconds" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
               </div> 
@@ -122,7 +122,7 @@ export const moveItemEffect: Firebot.EffectType<{
           $scope.effect.itemsToMove.setFlip = $scope.effect.itemsToMove.setFlip ?? false;
           $scope.effect.itemsToMove.flip = $scope.effect.itemsToMove.flip ?? false
           $scope.effect.itemsToMove.userCanStop = $scope.effect.itemsToMove.userCanStop ?? false;
-          $scope.effect.itemsToMove.fadeMode = $scope.effect.itemsToMove.fadeMode ?? "liner";
+          $scope.effect.itemsToMove.fadeMode = $scope.effect.itemsToMove.fadeMode ?? "linear";
           $scope.effect.itemsToMove.timeInSeconds = $scope.effect.itemsToMove.timeInSeconds ?? 0;
           $scope.effect.itemsToMove.positionX = $scope.effect.itemsToMove.positionX ?? 0;
           $scope.effect.itemsToMove.positionY = $scope.effect.itemsToMove.positionY ?? 0;
@@ -214,7 +214,7 @@ export const moveItemEffect: Firebot.EffectType<{
 //               fromWorkshop: false
 //             }
 //           ],
-//             availableItemFiles: [
+//             availableItemFiles: [//1000 files
 //               {
 //                 fileName: 'akari_fly (@walfieee)',
 //                 type: 'AnimationFolder',
