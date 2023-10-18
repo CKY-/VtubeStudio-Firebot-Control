@@ -327,6 +327,13 @@ export type ItemUnloadEffect = {
     fileNames: string[],
 };
 
+export type unloadedItems = {
+    unloadedItems: {
+        instanceID: string
+        fileName: string
+    }[]
+}
+
 export type ItemAnimationControlEffect = {
     itemInstanceID: string
     framerate: number

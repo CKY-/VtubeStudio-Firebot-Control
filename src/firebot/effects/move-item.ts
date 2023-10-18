@@ -5,21 +5,7 @@ import { moveItem } from "../vtube-remote"
 /**
 * The Trigger Hotkey Effect
 */
-export const moveItemEffect: Firebot.EffectType<{
-  itemsToMove: {
-    itemInstanceID: string
-    timeInSeconds?: number
-    fadeMode?: 'linear' | 'easeIn' | 'easeOut' | 'easeBoth' | 'overshoot' | 'zip'
-    positionX?: number
-    positionY?: number
-    size?: number
-    rotation?: number
-    order?: number
-    setFlip?: boolean
-    flip?: boolean
-    userCanStop?: boolean
-  }[]
-}> = {
+export const moveItemEffect: Firebot.EffectType<ItemMoveEffect> = {
   /**
   * The definition of the Effect
   */
@@ -36,12 +22,16 @@ export const moveItemEffect: Firebot.EffectType<{
   */
   optionsTemplate: `
       <eos-container header="Item">
-              <ui-select ng-model="selected" on-select="selectKey($select.selected.instanceID, $select.selected.fileName)">
-               <ui-select-match placeholder="Select a Item...">{{$select.selected.fileName}}</ui-select-match>
+          <ui-select ng-model="selected" on-select="selectItem($select.selected.instanceID, $select.selected.fileName)">
+             <ui-select-match placeholder="Select a Item...">{{$select.selected.fileName}}</ui-select-match>
                 <ui-select-choices repeat="item in itemCollections | filter: {fileName: $select.search}">
                   <div ng-bind-html="item.fileName | highlight: $select.search"></div>
-               </ui-select-choices>
-              </ui-select>
+             </ui-select-choices>
+          </ui-select>
+          <p>
+            <button style="margin-top:3px" class="btn btn-link" ng-click="reloadItemsList()">Refresh Model Information</button>
+            <span class="muted">(Make sure VTube Studio is running and Connected)</span>
+          </p>
       </eos-container>
       <eos-container header="Time to Position">       
               <div class="input-group" style="padding-bottom:10px">
@@ -93,10 +83,6 @@ export const moveItemEffect: Firebot.EffectType<{
                     <div class="control__indicator"></div>
                 </label>
               </div>
-          <p>
-            <button style="margin-top:3px" class="btn btn-link" ng-click="reloadItemsList()">Refresh Model Information</button>
-            <span class="muted">(Make sure VTube Studio is running and Connected)</span>
-          </p>
       </eos-container>
     `,
   /**
@@ -112,22 +98,23 @@ export const moveItemEffect: Firebot.EffectType<{
       'overshoot',
       'zip'
     ];
+    
+    
     $scope.itemCollections = [];
+    $scope.selectItem = (instanceID:string, fileName: string) => {
+      $scope.effect.fileName = fileName;
+      $scope.effect.itemsToMove[0].itemInstanceID = instanceID;
+    };
 
     $scope.getItemList = () => {
       $q.when(backendCommunicator.fireEventAsync("vtube-get-item-list")).then(
         (itemCollections: ItemListVariable) => {
           $scope.itemCollections = itemCollections.itemInstancesInScene ?? [];
-          $scope.effect.itemsToMove.order = $scope.effect.itemsToMove.order
-          $scope.effect.itemsToMove.setFlip = $scope.effect.itemsToMove.setFlip ?? false;
-          $scope.effect.itemsToMove.flip = $scope.effect.itemsToMove.flip ?? false
-          $scope.effect.itemsToMove.userCanStop = $scope.effect.itemsToMove.userCanStop ?? false;
-          $scope.effect.itemsToMove.fadeMode = $scope.effect.itemsToMove.fadeMode ?? "linear";
-          $scope.effect.itemsToMove.timeInSeconds = $scope.effect.itemsToMove.timeInSeconds ?? 0;
-          $scope.effect.itemsToMove.positionX = $scope.effect.itemsToMove.positionX ?? 0;
-          $scope.effect.itemsToMove.positionY = $scope.effect.itemsToMove.positionY ?? 0;
-          $scope.effect.itemsToMove.rotation = $scope.effect.itemsToMove.rotation ?? 360;
-          $scope.effect.itemsToMove.size = $scope.effect.itemsToMove.size ?? 0;
+          $scope.selected = $scope.itemCollections.find((item: { fileName: string; }) =>
+            item.fileName === $scope.effect.fileName
+          );
+          $scope.effect.itemsToMove.order = $scope.effect.itemCollections.order
+          $scope.effect.itemsToMove.flip = $scope.effect.itemCollections.flip
         }); 
     };
     $scope.getItemList();
@@ -135,8 +122,8 @@ export const moveItemEffect: Firebot.EffectType<{
       $q.when(backendCommunicator.fireEventAsync("vtube-get-item-list")).then(
         (itemCollections: ItemListVariable) => {
           $scope.itemCollections = itemCollections.itemInstancesInScene ?? [];
-          $scope.effect.itemsToMove.order = $scope.effect.itemsToMove.order ?? 0;
-          $scope.effect.itemsToMove.flip = $scope.effect.itemsToMove.flip ?? false;
+          $scope.effect.itemsToMove.order = $scope.effect.itemCollections.order
+          $scope.effect.itemsToMove.flip = $scope.effect.itemCollections.flip
         });
     };
   },
@@ -146,8 +133,8 @@ export const moveItemEffect: Firebot.EffectType<{
   */
   optionsValidator: effect => {
     const errors = [];
-    if (effect.itemsToMove == null) {
-      errors.push("Please set a time.");
+    if (effect.itemsToMove[0].itemInstanceID == null) {
+      errors.push("Please select an item.");
     }
     return errors;
   },
@@ -155,7 +142,7 @@ export const moveItemEffect: Firebot.EffectType<{
   * When the effect is triggered by something
   */
   onTriggerEvent: async event => {
-    
+    console.log(event.effect.itemsToMove)
     await moveItem(event.effect.itemsToMove);
       return true;
   }

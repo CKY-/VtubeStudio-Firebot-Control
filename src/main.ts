@@ -16,6 +16,7 @@ import { moveModelEffect } from "./firebot/effects/move-model";
 import { expressionActivationEffect } from "./firebot/effects/expresion-activate";
 import { moveItemEffect } from "./firebot/effects/move-item";
 import { loadItemEffect } from "./firebot/effects/load-item";
+import { unloadItemEffect } from "./firebot/effects/unload-item";
 
 const script: Firebot.CustomScript<vTubeParams> = {
   getScriptManifest: () => {
@@ -93,6 +94,7 @@ const script: Firebot.CustomScript<vTubeParams> = {
     effectManager.registerEffect(moveModelEffect);
     effectManager.registerEffect(moveItemEffect);
     effectManager.registerEffect(loadItemEffect);
+    effectManager.registerEffect(unloadItemEffect);
     eventManager.registerEventSource(VTUBEEventSource);
     replaceVariableManager.registerReplaceVariable(getArtMeshListVariable);
     replaceVariableManager.registerReplaceVariable(getAvailableModelsVariable);
@@ -100,7 +102,6 @@ const script: Firebot.CustomScript<vTubeParams> = {
     replaceVariableManager.registerReplaceVariable(getHotkeysInCurrentModelVaraible);
     replaceVariableManager.registerReplaceVariable(getLiveParameterListVarable);
     replaceVariableManager.registerReplaceVariable(getItemListVariable);
-
   },
 };
 export default script;

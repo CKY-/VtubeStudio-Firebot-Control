@@ -16,7 +16,8 @@ import {
     MoveModelEffect,
     ItemMoveEffect,
     movedItems,
-    ItemLoadEffect
+    ItemLoadEffect,
+    unloadedItems
 } from "./types";
 
 import {
@@ -211,28 +212,6 @@ export async function loadItem(
     return itemLoad;
 }
 
-export async function expressionState(details: boolean, file: string): Promise<ExpressionStateEffect> {
-    let data: {
-        details: boolean;
-        expressionFile?: string;
-    };
-    data.expressionFile = file;
-    data.details = details;
-    let config: IClientCallConfig
-    let expressionState = await vtube.expressionState(data, config);
-    return expressionState
-}
-
-export async function triggerExpressionActivation(file: string, active: boolean): Promise<void> {
-    let data: {
-        expressionFile: string;
-        active: boolean;
-    };
-    let config: IClientCallConfig
-    let expressionActivation = await vtube.expressionActivation(data, config);
-    return expressionActivation;
-}
-
 export async function moveItem(itemsToMove: {
     itemInstanceID: string
     timeInSeconds?: number
@@ -268,6 +247,53 @@ export async function moveItem(itemsToMove: {
     let itemMove = await vtube.itemMove(data, config);
     return itemMove;
 }
+
+export async function unloadItem(unloadAllInScene: boolean,
+    unloadAllLoadedByThisPlugin: boolean,
+    allowUnloadingItemsLoadedByUserOrOtherPlugins: boolean,
+    instanceIDs: string[],
+    fileNames: string[]): Promise<unloadedItems> {
+    let data: {
+        unloadAllInScene: boolean,
+        unloadAllLoadedByThisPlugin: boolean,
+        allowUnloadingItemsLoadedByUserOrOtherPlugins: boolean,
+        instanceIDs: string[],
+        fileNames: string[]
+    } = {
+        unloadAllInScene: unloadAllInScene,
+        unloadAllLoadedByThisPlugin: unloadAllLoadedByThisPlugin,
+        allowUnloadingItemsLoadedByUserOrOtherPlugins: allowUnloadingItemsLoadedByUserOrOtherPlugins,
+        instanceIDs: instanceIDs,
+        fileNames: fileNames
+    };
+
+    let config: IClientCallConfig
+    let unloadedItems = await vtube.itemUnload(data, config);
+    return unloadedItems;
+}
+
+export async function expressionState(details: boolean, file: string): Promise<ExpressionStateEffect> {
+    let data: {
+        details: boolean;
+        expressionFile?: string;
+    };
+    data.expressionFile = file;
+    data.details = details;
+    let config: IClientCallConfig
+    let expressionState = await vtube.expressionState(data, config);
+    return expressionState
+}
+
+export async function triggerExpressionActivation(file: string, active: boolean): Promise<void> {
+    let data: {
+        expressionFile: string;
+        active: boolean;
+    };
+    let config: IClientCallConfig
+    let expressionActivation = await vtube.expressionActivation(data, config);
+    return expressionActivation;
+}
+
 
 async function maintainConnection(
     ip: string,

@@ -58,7 +58,8 @@ export const triggerHotkeyEffect: Firebot.EffectType<{
                 (keyCollections: HotkeysInCurrentModelVariable) => {
                     $scope.keyCollections = keyCollections ?? [];
                     $scope.selected = $scope.keyCollections.availableHotkeys.find((key: { name: AvailableHotkeys[]; }) =>
-                        key.name === $scope.effect.keyName);
+                        key.name === $scope.effect.keyName
+                    );
                 }
             );
         };

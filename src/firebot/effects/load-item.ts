@@ -1,7 +1,8 @@
 "use strict";
 import { Firebot } from "@crowbartools/firebot-custom-scripts-types";
 import { ItemListVariable } from "../types";
-import {  loadItem } from "../vtube-remote"
+import { loadItem } from "../vtube-remote";
+import { Logger } from "@crowbartools/firebot-custom-scripts-types/types/modules/logger";
 /**
 * The Trigger Hotkey Effect
 */
@@ -36,10 +37,11 @@ export const loadItemEffect: Firebot.EffectType<{
   */
   optionsTemplate: `
       <eos-container header="Item selection">
-        <ui-select ng-model="selected" on-select="selectKey($select.selected.name)">
-          <ui-select-match placeholder="Select an Item...">{{$select.selected.name}}</ui-select-match>
-          <ui-select-choices repeat="item in itemCollections.availableItemFiles | filter: {name: $select.search}">
-            <div ng-bind-html="item.name | highlight: $select.search"></div>
+        <ui-select ng-model="selected" on-select="selectItem($select.selected.fileName)">
+          <ui-select-match placeholder="Select an Item...">{{$select.selected.fileName}}</ui-select-match>
+          <ui-select-choices repeat="item in itemCollections | filter: {fileName: $select.search}">
+            <div ng-bind-html="item.fileName | highlight: $select.search"></div>
+            <small ng-bind-html="item.type | highlight: $select.search"></small>
           </ui-select-choices>
         </ui-select>
           <p>
@@ -82,10 +84,6 @@ export const loadItemEffect: Firebot.EffectType<{
                     <span class="input-group-addon" id="delay-length-effect-type">Smothing</span>
                     <input ng-model="effect.smothing" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
               </div> 
-          <p>
-            <button style="margin-top:3px" class="btn btn-link" ng-click="reloadItemsList()">Refresh Model Information</button>
-            <span class="muted">(Make sure VTube Studio is running and Connected)</span>
-          </p>
       </eos-container>
       <eos-container header="Item Information">
               <div style="padding-top:20px">
@@ -94,7 +92,6 @@ export const loadItemEffect: Firebot.EffectType<{
                     <div class="control__indicator"></div>
                 </label>
               </div>
-
               <div style="padding-top:20px">
                 <label class="control-fb control--checkbox">Censored
                     <input type="checkbox" ng-model="effect.censored">
@@ -102,7 +99,7 @@ export const loadItemEffect: Firebot.EffectType<{
                 </label>
               </div>
               <div style="padding-top:20px">
-                <label class="contro l-fb control--checkbox">Locked
+                <label class="control-fb control--checkbox">Locked
                     <input type="checkbox" ng-model="effect.locked">
                     <div class="control__indicator"></div>
                 </label>
@@ -127,30 +124,23 @@ export const loadItemEffect: Firebot.EffectType<{
   optionsController: ($scope: any, backendCommunicator: any, $q: any) => {
     $scope.itemCollections = [];
 
+    $scope.selectItem = (fileName: string) => {
+      $scope.effect.fileName = fileName;
+    };
+
     $scope.getItemList = () => {
       $q.when(backendCommunicator.fireEventAsync("vtube-get-item-list")).then(
         (itemCollections: ItemListVariable) => {
-          $scope.itemCollections = itemCollections ?? [];
-          $scope.effect.fileName = $scope.effect.fileName ?? $scope.itemCollections.fileName
-          $scope.effect.fadeTime = $scope.effect.fadeTime ?? $scope.itemCollections.fadeTime
-          $scope.effect.order = $scope.effect.order ?? $scope.itemCollections.order
-          $scope.effect.failIfOrderTaken = $scope.effect.failIfOrderTaken ?? $scope.itemCollections.failIfOrderTaken
-          $scope.effect.smoothing = $scope.effect.smoothing ?? $scope.itemCollections.smoothing
-          $scope.effect.censored = $scope.effect.censored ?? $scope.itemCollections.censored
-          $scope.effect.flipped = $scope.effect.flipped ?? $scope.itemCollections.flipped
-          $scope.effect.locked = $scope.effect.locked ?? $scope.itemCollections.locked
-          $scope.effect.unloadWhenPluginDisconnects = $scope.effect.unloadWhenPluginDisconnects ?? $scope.itemCollections.unloadWhenPluginDisconnects
-          $scope.effect.positionX = $scope.effect.positionX ?? $scope.itemCollections.positionX
-          $scope.effect.positionY = $scope.effect.positionY ?? $scope.itemCollections.positionY
-          $scope.effect.rotation = $scope.effect.rotation ?? $scope.itemCollections.rotation
-          $scope.effect.size = $scope.effect.size ?? $scope.itemCollections.size 
-        }); 
+          $scope.itemCollections = itemCollections.availableItemFiles ?? [];
+          $scope.selected = $scope.itemCollections.find((item: { fileName: string; }) =>
+            item.fileName === $scope.effect.fileName);
+        });
     };
     $scope.getItemList();
     $scope.reloadItemList = () => {
       $q.when(backendCommunicator.fireEventAsync("vtube-get-item-list")).then(
         (itemCollections: ItemListVariable) => {
-          $scope.itemCollections = itemCollections ?? [];
+          $scope.itemCollections = itemCollections.availableItemFiles ?? [];
         });
     };
   },
@@ -169,21 +159,21 @@ export const loadItemEffect: Firebot.EffectType<{
   * When the effect is triggered by something
   */
   onTriggerEvent: async event => {
-      await loadItem(
-        event.effect.fileName,
-        event.effect.positionX,
-        event.effect.positionY,
-        event.effect.rotation,
-        event.effect.size,
-        event.effect.fadeTime,
-        event.effect.order,
-        event.effect.failIfOrderTaken,
-        event.effect.smoothing,
-        event.effect.censored,
-        event.effect.flipped,
-        event.effect.locked,
-        event.effect.unloadWhenPluginDisconnects,
-      );
-      return true;
+    await loadItem(
+      event.effect.fileName,
+      event.effect.positionX,
+      event.effect.positionY,
+      event.effect.rotation,
+      event.effect.size,
+      event.effect.fadeTime,
+      event.effect.order,
+      event.effect.failIfOrderTaken,
+      event.effect.smoothing,
+      event.effect.censored,
+      event.effect.flipped,
+      event.effect.locked,
+      event.effect.unloadWhenPluginDisconnects,
+    );
+    return true;
   }
 };
