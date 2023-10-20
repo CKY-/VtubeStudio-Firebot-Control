@@ -4,8 +4,7 @@ import { getHotkeysInCurrentModel } from "../vtube-remote";
 export const getHotkeysInCurrentModelVaraible: ReplaceVariable = {
     definition: {
         handle: "vtubeHotkeysInCurrentModel",
-        description:
-            "An array of Hotkeys In Current Model.",
+        description: "An array of Hotkeys In Current Model.",
         possibleDataOutput: ["text"],
     },
     evaluator: async () => {

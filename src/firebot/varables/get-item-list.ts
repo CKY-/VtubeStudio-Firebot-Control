@@ -4,8 +4,7 @@ import { getItemList } from "../vtube-remote";
 export const getItemListVariable: ReplaceVariable = {
     definition: {
         handle: "vtubeAvailableItemsList",
-        description:
-            "An array of Available Items 'loaded'.",
+        description: "An array of Available Items 'loaded'.",
         possibleDataOutput: ["text"],
         examples: [
             {

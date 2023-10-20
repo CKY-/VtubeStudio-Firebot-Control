@@ -13,10 +13,7 @@ import {
     HotkeyTriggerEffect,
     ExpressionStateEffect,
     ExpressionActivationEffect,
-    MoveModelEffect,
-    ItemMoveEffect,
     movedItems,
-    ItemLoadEffect,
     unloadedItems
 } from "./types";
 
@@ -367,7 +364,6 @@ export async function triggerExpressionActivation(file: string, active: boolean 
     }
     return expressionActivation;
 }
-
 
 async function maintainConnection(
     ip: string,

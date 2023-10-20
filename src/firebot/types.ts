@@ -1,4 +1,3 @@
-import { type } from "os";
 import { HotkeyType, ILive2DParameter, ItemType, IVTSParameter, RestrictedRawKey } from "vtubestudio/lib/types";
 
 export type vTubeSettings = {
@@ -63,7 +62,6 @@ export type AvailableModelsVariable = {
         vtsModelIconName: string,
     }[]
 };
-
 
 export type MoveModelEffect = {
     timeInSeconds: number,
@@ -361,6 +359,7 @@ export type ItemMoveEffect = {
         userCanStop?: boolean
     }[]
 };
+
 export type movedItems = {
     movedItems: {
         itemInstanceID: string;

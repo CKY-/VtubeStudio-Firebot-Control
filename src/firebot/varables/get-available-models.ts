@@ -4,8 +4,7 @@ import { getAvailableModels } from "../vtube-remote";
 export const getAvailableModelsVariable: ReplaceVariable = {
     definition: {
         handle: "vtubeAvailableModelsList",
-        description:
-            "An array of Available Models 'loaded'.",
+        description: "An array of Available Models 'loaded'.",
         possibleDataOutput: ["text"],
     },
     evaluator: async () => {

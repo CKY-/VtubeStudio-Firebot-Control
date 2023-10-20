@@ -4,8 +4,7 @@ import { getLiveParameterList } from "../vtube-remote";
 export const getLiveParameterListVarable: ReplaceVariable = {
     definition: {
         handle: "vtubeLiveParameterListVarable",
-        description:
-            "An array of Live 2d Parameters 'loaded'.",
+        description: "An array of Live 2d Parameters 'loaded'.",
         possibleDataOutput: ["text"],
     },
     evaluator: async () => {
