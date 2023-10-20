@@ -45,7 +45,7 @@ export const loadItemEffect: Firebot.EffectType<{
           </ui-select-choices>
         </ui-select>
           <p>
-            <button class="btn btn-link" ng-click="reloadItemList()">Refresh Item Collections</button>
+            <button class="btn btn-link" ng-click="reloadItemList()">Refresh Item Collection</button>
             <span class="muted">(Make sure VTube Studio is running and Connected)</span>
           </p>
       </eos-container>

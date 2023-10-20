@@ -5,8 +5,22 @@ import { moveItem } from "../vtube-remote"
 /**
 * The Trigger Hotkey Effect
 */
-export const moveItemEffect: Firebot.EffectType<ItemMoveEffect> = {
-  /**
+export const moveItemEffect: Firebot.EffectType<{
+
+    itemInstanceID: string
+    timeInSeconds?: number
+    fadeMode?: 'linear' | 'easeIn' | 'easeOut' | 'easeBoth' | 'overshoot' | 'zip'
+    positionX?: number
+    positionY?: number
+    size?: number
+    rotation?: number
+    order?: number
+    setFlip?: boolean
+    flip?: boolean
+    userCanStop?: boolean
+
+}> = {
+ /**
   * The definition of the Effect
   */
   definition: {
@@ -25,61 +39,61 @@ export const moveItemEffect: Firebot.EffectType<ItemMoveEffect> = {
           <ui-select ng-model="selected" on-select="selectItem($select.selected.instanceID, $select.selected.fileName)">
              <ui-select-match placeholder="Select a Item...">{{$select.selected.fileName}}</ui-select-match>
                 <ui-select-choices repeat="item in itemCollections | filter: {fileName: $select.search}">
-                  <div ng-bind-html="item.fileName | highlight: $select.search"></div>
+                <div ng-bind-html="item.fileName | highlight: $select.search"></div>
              </ui-select-choices>
           </ui-select>
           <p>
-            <button style="margin-top:3px" class="btn btn-link" ng-click="reloadItemsList()">Refresh Model Information</button>
+            <button style="margin-top:3px" class="btn btn-link" ng-click="reloadItemsList()">Refresh Loaded Item Collection</button>
             <span class="muted">(Make sure VTube Studio is running and Connected)</span>
           </p>
       </eos-container>
       <eos-container header="Time to Position">       
-              <div class="input-group" style="padding-bottom:10px">
-                    <span class="input-group-addon" id="delay-length-effect-type">timeInSeconds</span>
-                    <input ng-model="effect.itemsToMove.timeInSeconds" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
-              </div> 
+           <div class="input-group" style="padding-bottom:10px">
+                <span class="input-group-addon" id="delay-length-effect-type">timeInSeconds</span>
+                <input ng-model="effect.timeInSeconds" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
+            </div> 
       </eos-container>
       <eos-container header="Fade Mode"> 
-              <div style="padding-top:10px">
-               <dropdown-select options="fadeMode" selected="effect.itemsToMove.fadeMode"></dropdown-select>
-              </div>
+            <div style="padding-top:10px; padding-bottom:10px;">
+               <dropdown-select options="fadeMode" selected="effect.fadeMode"></dropdown-select>
+            </div>
       </eos-container>
       <eos-container header="Item Position">
               <div class="input-group">
                     <span class="input-group-addon" id="delay-length-effect-type">positionX</span>
-                    <input ng-model="effect.itemsToMove.positionX" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
+                    <input ng-model="effect.positionX" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
               </div>
               <div class="input-group" style="margin-top:10px" >
                     <span class="input-group-addon" id="delay-length-effect-type">positionY</span>
-                    <input ng-model="effect.itemsToMove.positionY" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
+                    <input ng-model="effect.positionY" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
               </div> 
               <div class="input-group" style="margin-top:10px" >
                     <span class="input-group-addon" id="delay-length-effect-type">rotation</span>
-                    <input ng-model="effect.itemsToMove.rotation" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
+                    <input ng-model="effect.rotation" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
               </div>
               <div class="input-group" style="margin-top:10px" >
                     <span class="input-group-addon" id="delay-length-effect-type">size</span>
-                    <input ng-model="effect.itemsToMove.size" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
+                    <input ng-model="effect.size" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
               </div> 
               <div class="input-group" style="margin-top:10px" >
                     <span class="input-group-addon" id="delay-length-effect-type">order</span>
-                    <input ng-model="effect.itemsToMove.order" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
+                    <input ng-model="effect.order" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
               </div> 
               <div style="padding-top:20px">
                 <label class="control-fb control--checkbox">Set Flip
-                    <input type="checkbox" ng-model="effect.itemsToMove.setFlip">
+                    <input type="checkbox" ng-model="effect.setFlip">
                     <div class="control__indicator"></div>
                 </label>
               </div>
               <div style="padding-top:20px">
                 <label class="control-fb control--checkbox">Flip
-                    <input type="checkbox" ng-model="effect.itemsToMove.flip">
+                    <input type="checkbox" ng-model="effect.flip">
                     <div class="control__indicator"></div>
                 </label>
               </div>
               <div style="padding-top:20px">
                 <label class="control-fb control--checkbox">Can Stop
-                    <input type="checkbox" ng-model="effect.itemsToMove.userCanStop">
+                    <input type="checkbox" ng-model="effect.userCanStop">
                     <div class="control__indicator"></div>
                 </label>
               </div>
@@ -90,7 +104,7 @@ export const moveItemEffect: Firebot.EffectType<ItemMoveEffect> = {
   * Port over from effectHelperService.js
   */
   optionsController: ($scope: any, backendCommunicator: any, $q: any) => {
-    $scope.fadeMode =[
+    $scope.fadeMode = [
       'linear',
       'easeIn',
       'easeOut',
@@ -98,12 +112,10 @@ export const moveItemEffect: Firebot.EffectType<ItemMoveEffect> = {
       'overshoot',
       'zip'
     ];
-    
-    
     $scope.itemCollections = [];
-    $scope.selectItem = (instanceID:string, fileName: string) => {
+    $scope.selectItem = (instanceID: string, fileName: string) => {
       $scope.effect.fileName = fileName;
-      $scope.effect.itemsToMove[0].itemInstanceID = instanceID;
+      $scope.effect.itemInstanceID = instanceID;
     };
 
     $scope.getItemList = () => {
@@ -113,17 +125,13 @@ export const moveItemEffect: Firebot.EffectType<ItemMoveEffect> = {
           $scope.selected = $scope.itemCollections.find((item: { fileName: string; }) =>
             item.fileName === $scope.effect.fileName
           );
-          $scope.effect.itemsToMove.order = $scope.effect.itemCollections.order
-          $scope.effect.itemsToMove.flip = $scope.effect.itemCollections.flip
-        }); 
+        });
     };
     $scope.getItemList();
     $scope.reloadItemsList = () => {
       $q.when(backendCommunicator.fireEventAsync("vtube-get-item-list")).then(
         (itemCollections: ItemListVariable) => {
           $scope.itemCollections = itemCollections.itemInstancesInScene ?? [];
-          $scope.effect.itemsToMove.order = $scope.effect.itemCollections.order
-          $scope.effect.itemsToMove.flip = $scope.effect.itemCollections.flip
         });
     };
   },
@@ -133,7 +141,7 @@ export const moveItemEffect: Firebot.EffectType<ItemMoveEffect> = {
   */
   optionsValidator: effect => {
     const errors = [];
-    if (effect.itemsToMove[0].itemInstanceID == null) {
+    if (effect.itemInstanceID == null) {
       errors.push("Please select an item.");
     }
     return errors;
@@ -142,81 +150,19 @@ export const moveItemEffect: Firebot.EffectType<ItemMoveEffect> = {
   * When the effect is triggered by something
   */
   onTriggerEvent: async event => {
-    console.log(event.effect.itemsToMove)
-    await moveItem(event.effect.itemsToMove);
-      return true;
+    await moveItem(
+      event.effect.itemInstanceID,
+      event.effect.timeInSeconds,
+      event.effect.fadeMode,
+      event.effect.positionX ,
+      event.effect.positionY,
+      event.effect.size,
+      event.effect.rotation,
+      event.effect.order,
+      event.effect.setFlip,
+      event.effect.flip,
+      event.effect.userCanStop
+      );
+    return true;
   }
 };
-
-// error: Items
-// {
-//   itemsInSceneCount: 2,
-//     totalItemsAllowedCount: 60,
-//       canLoadItemsRightNow: true,
-//         availableSpots: [
-//           -30, -29, -28, -27, -26, -25, -24, -23, -22, -21, -20,
-//           -19, -18, -17, -16, -15, -14, -13, -12, -11, -10, -9,
-//           -8, -7, -6, -5, -4, -3, -2, -1, 1, 2, 3,
-//           4, 5, 7, 8, 10, 11, 12, 13, 14, 15, 16,
-//           17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
-//           28, 29, 30
-//         ],
-//           itemInstancesInScene: [
-//             {
-//               fileName: 'beverage_Bepis (@7MDigital).png',
-//               instanceID: '0546257d85c5452586b5f8f5973688c3',
-//               order: 6,
-//               type: 'PNG',
-//               censored: false,
-//               flipped: false,
-//               locked: false,
-//               smoothing: 0,
-//               framerate: 0,
-//               frameCount: -1,
-//               currentFrame: -1,
-//               pinnedToModel: false,
-//               pinnedModelID: '',
-//               pinnedArtMeshID: '',
-//               groupName: '',
-//               sceneName: '',
-//               fromWorkshop: false
-//             },
-//             {
-//               fileName: 'beverage_Boba (@7MDigital).png',
-//               instanceID: 'e336b294b048494d9c791cb86dcca34f',
-//               order: 9,
-//               type: 'PNG',
-//               censored: false,
-//               flipped: false,
-//               locked: false,
-//               smoothing: 0,
-//               framerate: 0,
-//               frameCount: -1,
-//               currentFrame: -1,
-//               pinnedToModel: true,
-//               pinnedModelID: '57ac6bef91f146029aae3a2ee6d03f51',
-//               pinnedArtMeshID: 'D_CHEST_00',
-//               groupName: '',
-//               sceneName: 'cup',
-//               fromWorkshop: false
-//             }
-//           ],
-//             availableItemFiles: [//1000 files
-//               {
-//                 fileName: 'akari_fly (@walfieee)',
-//                 type: 'AnimationFolder',
-//                 loadedCount: 0
-//               },
-//               {
-//                 fileName: 'b_woozy (@denchisoft).png',
-//                 type: 'PNG',
-//                 loadedCount: 0
-//               },
-          
-//               {
-//                 fileName: 'live2d_pudding (@denchisoft)',
-//                 type: 'Live2D',
-//                 loadedCount: 0
-//               },
-//             ]
-// }

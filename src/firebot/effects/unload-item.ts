@@ -26,14 +26,14 @@ export const unloadItemEffect: Firebot.EffectType<ItemUnloadEffect> = {
           <ui-select-match placeholder="Select an Item...">{{$select.selected.fileName}}</ui-select-match>
           <ui-select-choices repeat="item in itemCollections | filter: {fileName: $select.search}">
             <div ng-bind-html="item.fileName | highlight: $select.search"></div>
-          </ui-select-choices>
-        </ui-select>
+            </ui-select-choices>
+          </ui-select>
           <p>
             <button class="btn btn-link" ng-click="reloadItemList()">Refresh Item Collections</button>
             <span class="muted">(Make sure VTube Studio is running and Connected)</span>
           </p>
-      </eos-container>
-      <eos-container header="Item Information">
+        </eos-container>
+        <eos-container header="Item Unloading">
               <div style="padding-top:20px">
                 <label class="control-fb control--checkbox">Unload All In Scene
                     <input type="checkbox" ng-model="effect.unloadAllInScene">
@@ -41,7 +41,7 @@ export const unloadItemEffect: Firebot.EffectType<ItemUnloadEffect> = {
                 </label>
               </div>
               <div style="padding-top:20px">
-                <label class="control-fb control--checkbox">Unload All Loaded By Thi Plugin
+                <label class="control-fb control--checkbox">Unload All Loaded By This Plugin
                     <input type="checkbox" ng-model="effect.unloadAllLoadedByThisPlugin">
                     <div class="control__indicator"></div>
                 </label>
@@ -55,7 +55,7 @@ export const unloadItemEffect: Firebot.EffectType<ItemUnloadEffect> = {
       </eos-container>
       <eos-container pad-top="true" class="ng-isolate-scope">
             <div class="effect-info alert alert-warning ng-scope">
-              Note: All items must be added in VTube Studio. 
+               Note: All items must be added in VTube Studio. 
             </div>
       </eos-container>
     `,
@@ -67,8 +67,8 @@ export const unloadItemEffect: Firebot.EffectType<ItemUnloadEffect> = {
         $scope.itemCollections = [];
 
         $scope.selectItem = (instanceID: string, fileName: string) => {
-            $scope.effect.fileNames = fileName;
-            $scope.effect.instanceIDs = instanceID;
+            $scope.effect.fileNames = [fileName];
+            $scope.effect.instanceIDs = [instanceID];
         };
 
         $scope.getItemList = () => {

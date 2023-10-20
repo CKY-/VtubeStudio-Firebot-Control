@@ -17,6 +17,7 @@ import { expressionActivationEffect } from "./firebot/effects/expresion-activate
 import { moveItemEffect } from "./firebot/effects/move-item";
 import { loadItemEffect } from "./firebot/effects/load-item";
 import { unloadItemEffect } from "./firebot/effects/unload-item";
+import { loadModelEffect } from "./firebot/effects/load-model";
 
 const script: Firebot.CustomScript<vTubeParams> = {
   getScriptManifest: () => {
@@ -91,6 +92,7 @@ const script: Firebot.CustomScript<vTubeParams> = {
     effectManager.registerEffect(expressionStateEffect);
     effectManager.registerEffect(expressionActivationEffect);
     effectManager.registerEffect(triggerHotkeyEffect);
+    effectManager.registerEffect(loadModelEffect);
     effectManager.registerEffect(moveModelEffect);
     effectManager.registerEffect(moveItemEffect);
     effectManager.registerEffect(loadItemEffect);

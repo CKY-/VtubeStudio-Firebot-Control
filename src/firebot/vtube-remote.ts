@@ -1,5 +1,5 @@
 import { ScriptModules } from "@crowbartools/firebot-custom-scripts-types";
-import { ApiClient, IClientCallConfig} from "vtubestudio";
+import { ApiClient, IClientCallConfig } from "vtubestudio";
 import * as WebSocket from "ws";
 
 import {
@@ -36,7 +36,7 @@ import { logger } from "../logger";
 let fs: ScriptModules["fs"]
 let vtube: ApiClient;
 let eventManager: ScriptModules["eventManager"];
-
+let logging:boolean;
 let connected = false;
 let reconnectTimeout: NodeJS.Timeout | null = null;
 let isForceClosing = false;
@@ -73,36 +73,55 @@ export function initRemote(
 ) {
     eventManager = modules.eventManager;
     fs = modules.fs;
+    logging = logging ?? false
     maintainConnection(ip, port, token, logging, forceConnect);
 }
 
 export async function getAvailableModels(): Promise<AvailableModelsVariable> {
     availableModels = await vtube.availableModels();
+    if (logging) {
+        logger.debug("Vtube-availableModels: ", availableModels)
+    }
     return availableModels;
 }
 
 export async function getArtMeshList(): Promise<ArtMeshListVariable> {
     artMeshList = await vtube.artMeshList();
+    if (logging) {
+        logger.debug("Vtube-artMeshList: ", artMeshList)
+    }
     return artMeshList;
 }
 
 export async function getCurrentModel(): Promise<CurrentModelVariable> {
     currentModel = await vtube.currentModel();
+    if (logging) {
+        logger.debug("Vtube-currentModel: ", currentModel)
+    }
     return currentModel;
 }
 
 export async function getCurrentModelPhysics(): Promise<GetCurrentModelPhysicsVariable> {
     currentModelPhysicsVariable = await vtube.getCurrentModelPhysics();
+    if (logging) {
+        logger.debug("Vtube-currentModelPhysicsVariable: ", currentModelPhysicsVariable)
+    }
     return currentModelPhysicsVariable;
 }
 
 export async function getHotkeysInCurrentModel(): Promise<HotkeysInCurrentModelVariable> {
     hotkeysInCurrentModel = await vtube.hotkeysInCurrentModel();
+    if (logging) {
+        logger.debug("Vtube-hotkeysInCurrentModel: ", hotkeysInCurrentModel)
+    }
     return hotkeysInCurrentModel;
 }
 
 export async function getLiveParameterList(): Promise<LiveParameterListVaraible> {
     liveParameterList = await vtube.live2DParameterList();
+    if (logging) {
+        logger.debug("Vtube-liveParameterList: ", liveParameterList)
+    }
     return liveParameterList;
 }
 
@@ -116,6 +135,9 @@ export async function getItemList(itemfiles = true, spots = true, inScene = true
     }
     itemListVariable = await vtube.itemList(data);
     logger.error("Items", itemListVariable)
+    if (logging) {
+        logger.debug("Vtube-itemListVariable: ", itemListVariable)
+    }
     return itemListVariable;
 }
 
@@ -129,12 +151,15 @@ export async function triggerHotkey(key: string): Promise<HotkeyTriggerEffect> {
 
     let config: IClientCallConfig
     let hotkeyTrigger = await vtube.hotkeyTrigger(data, config);
+    if (logging) {
+        logger.debug("Vtube-hotkeyTrigger: ", hotkeyTrigger)
+    }
     return hotkeyTrigger;
 }
 
 export async function moveModel(
     timeInSeconds: number,
-    valuesAreRelativeToModel: boolean,
+    valuesAreRelativeToModel: boolean = false,
     positionX?: number,
     positionY?: number,
     rotation?: number,
@@ -158,7 +183,25 @@ export async function moveModel(
 
     let config: IClientCallConfig
     let modelMove = await vtube.moveModel(data, config);
+    if (logging) {
+        logger.debug("Vtube-modelMove: ", modelMove)
+    }
     return modelMove;
+}
+
+export async function loadModel(modelID: string) {
+    let data: {
+        modelID: string
+    } = {
+        modelID: modelID
+    }
+
+    let config: IClientCallConfig
+    let modelLoad = await vtube.modelLoad(data, config);
+    if (logging) {
+        logger.debug("Vtube-modelLoad: ", modelLoad)
+    }
+    return modelLoad;
 }
 
 export async function loadItem(
@@ -209,48 +252,70 @@ export async function loadItem(
 
     let config: IClientCallConfig
     let itemLoad = await vtube.itemLoad(data, config);
+    if (logging) {
+        logger.debug("Vtube-itemLoad: ", itemLoad)
+    }
     return itemLoad;
 }
 
-export async function moveItem(itemsToMove: {
-    itemInstanceID: string
-    timeInSeconds?: number
-    fadeMode?: 'linear' | 'easeIn' | 'easeOut' | 'easeBoth' | 'overshoot' | 'zip'
-    positionX?: number
-    positionY?: number
-    size?: number
-    rotation?: number
-    order?: number
-    setFlip?: boolean
-    flip?: boolean
-    userCanStop?: boolean
-}[]): Promise<movedItems> {
+export async function moveItem(
+    itemInstanceID: string,
+    timeInSeconds?: number,
+    fadeMode?: 'linear' | 'easeIn' | 'easeOut' | 'easeBoth' | 'overshoot' | 'zip',
+    positionX?: number,
+    positionY?: number,
+    size?: number,
+    rotation?: number,
+    order?: number,
+    setFlip?: boolean,
+    flip?: boolean,
+    userCanStop?: boolean,
+
+): Promise<movedItems> {
+    // let data: ItemMoveEffect = itemsToMoveInfo
     let data: {
         itemsToMove: {
-            itemInstanceID: string
-            timeInSeconds?: number
-            fadeMode?: 'linear' | 'easeIn' | 'easeOut' | 'easeBoth' | 'overshoot' | 'zip'
-            positionX?: number
-            positionY?: number
-            size?: number
-            rotation?: number
-            order?: number
-            setFlip?: boolean
-            flip?: boolean
-            userCanStop?: boolean
+            itemInstanceID: string,
+            timeInSeconds?: number,
+            fadeMode?: 'linear' | 'easeIn' | 'easeOut' | 'easeBoth' | 'overshoot' | 'zip',
+            positionX?: number,
+            positionY?: number,
+            size?: number,
+            rotation?: number,
+            order?: number,
+            setFlip?: boolean,
+            flip?: boolean,
+            userCanStop?: boolean,
         }[]
     } = {
-        itemsToMove: itemsToMove
+        itemsToMove: [
+            {
+                itemInstanceID: itemInstanceID,
+                timeInSeconds: timeInSeconds,
+                fadeMode: fadeMode,
+                positionX: positionX,
+                positionY: positionY,
+                size: size,
+                rotation: rotation,
+                order: order,
+                setFlip: setFlip,
+                flip: flip,
+                userCanStop: userCanStop,
+            }
+        ]
     };
-    
+
     let config: IClientCallConfig
     let itemMove = await vtube.itemMove(data, config);
+    if (logging) {
+        logger.debug("Vtube-itemMove: ", itemMove)
+    }
     return itemMove;
 }
 
-export async function unloadItem(unloadAllInScene: boolean,
-    unloadAllLoadedByThisPlugin: boolean,
-    allowUnloadingItemsLoadedByUserOrOtherPlugins: boolean,
+export async function unloadItem(unloadAllInScene: boolean = false,
+    unloadAllLoadedByThisPlugin: boolean = false,
+    allowUnloadingItemsLoadedByUserOrOtherPlugins: boolean = false,
     instanceIDs: string[],
     fileNames: string[]): Promise<unloadedItems> {
     let data: {
@@ -269,10 +334,13 @@ export async function unloadItem(unloadAllInScene: boolean,
 
     let config: IClientCallConfig
     let unloadedItems = await vtube.itemUnload(data, config);
+    if (logging) {
+        logger.debug("Vtube-unloadedItems: ", unloadedItems)
+    }
     return unloadedItems;
 }
 
-export async function expressionState(details: boolean, file: string): Promise<ExpressionStateEffect> {
+export async function expressionState(details: boolean = false, file: string): Promise<ExpressionStateEffect> {
     let data: {
         details: boolean;
         expressionFile?: string;
@@ -281,16 +349,22 @@ export async function expressionState(details: boolean, file: string): Promise<E
     data.details = details;
     let config: IClientCallConfig
     let expressionState = await vtube.expressionState(data, config);
+    if (logging) {
+        logger.debug("Vtube-expressionState: ", expressionState)
+    }
     return expressionState
 }
 
-export async function triggerExpressionActivation(file: string, active: boolean): Promise<void> {
+export async function triggerExpressionActivation(file: string, active: boolean = false): Promise<void> {
     let data: {
         expressionFile: string;
         active: boolean;
     };
     let config: IClientCallConfig
     let expressionActivation = await vtube.expressionActivation(data, config);
+    if (logging) {
+        logger.debug("Vtube-expressionActivation: ",expressionActivation)
+    }
     return expressionActivation;
 }
 
@@ -320,27 +394,6 @@ async function maintainConnection(
                 logger.debug("url", `ws://${ip}:${port}`)
                 logger.debug("port", port)
             }
-
-            // function setAuthToken1(authenticationToken: string): Promise<void> {
-            //     let settings = <vTubeParams>{};
-            //     settings = {
-            //         ipAddress: ip,
-            //         port: port,
-            //         // token: authenticationToken,
-            //         logging: logging
-            //     }
-
-            //     // settings.token = authenticationToken;
-            //     logger.error("settings", settings)
-            //     // const eventEmitter = new EventEmitter();
-            //     //eventEmitter.emit("settings-update", "VTubeStudio", { settings });
-            //     return;
-            // }
-
-            // function getAuthToken1(this: string) {
-
-            //     return token;
-            // }
             function setAuthToken(authenticationToken: string): Promise<void> {
                 fs.writeFileSync(token, authenticationToken, {
                     encoding: "utf-8",

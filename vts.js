@@ -19,10 +19,26 @@ apiClient.on('connect', async () => {
 
     console.log(`Connected to VTube Studio v${stats.vTubeStudioVersion}`)
 
+    let itemMove = await apiClient.itemMove({
+                itemInstanceID: '14b5349296f940ee83c58c8319dcdb67',
+                timeInSeconds: 0,
+                fadeMode: 'linear',
+                positionX: 0.1,
+                positionY: 0.1,
+                rotation: 0,
+                size: 10,
+                order: 8,
+                setFlip: true,
+                flip: true,
+                userCanStop: true
+    }) 
+    console.log("item move recived", itemMove)
+
     console.log('Getting list of available models')
     const { availableModels } = await apiClient.availableModels()
 
     console.log('Adding event callback whenever a model is loaded')
+    
     await apiClient.events.modelLoaded.subscribe((data) => {
         if (data.modelLoaded) {
             console.log('Model loaded, queuing up a random model switch')
@@ -31,7 +47,7 @@ apiClient.on('connect', async () => {
                 const otherModels = availableModels.filter(m => m.modelID !== data.modelID)
                 const randomModel = otherModels[Math.floor(otherModels.length * Math.random())]
                 console.log('Switching to ' + randomModel.modelName)
-                await apiClient.modelLoad({ modelID: randomModel.modelID })
+                // await apiClient.modelLoad({ modelID: randomModel.modelID })
             }, 3000)
         }
     })
