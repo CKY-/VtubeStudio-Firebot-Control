@@ -1,14 +1,17 @@
-# Vtube Firebot Custom Script in Typescript
+# Vtube Firebot Custom Script
 
+## How to use
+1. Install [VTube Studo](https://denchisoft.com/) 
+2. Download the latest **VtubeScript.js** file from [Releases](https://github.com/cky-/Vtube/releases)
+3. Add the **VtubeScript.js** as a startup script in Firebot (Settings > Advanced > Startup Scripts)
+4. In the settings change your ports and ipaddress to match VTS settings
+4. Restart Firebot and enjoy!
+
+## Developers
 ### Setup
-1. Fork the repo
+1. Clone or fork repo
 2. `npm install`
 
 ### Building
-Dev:
-1. `npm run build:dev`
-- Automatically copies the compiled .js to Firebot's scripts folder.
-
-### Note
-- Keep the script definition object (that contains the `run`, `getScriptManifest`, and `getDefaultParameters` funcs) in the `index.ts` file as it's important those function names don't get minimized.
-- Edit the `"scriptOutputName"` property in `package.json` to change the filename of the outputted script.
+1. `npm run build`
+2. Copy the `.js` file in `/dist` to Firebot's `scripts` folder
