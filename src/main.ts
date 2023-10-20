@@ -18,6 +18,7 @@ import { moveItemEffect } from "./firebot/effects/move-item";
 import { loadItemEffect } from "./firebot/effects/load-item";
 import { unloadItemEffect } from "./firebot/effects/unload-item";
 import { loadModelEffect } from "./firebot/effects/load-model";
+import { ModelNameEventFilter } from "./firebot/filters/model-loaded-filter";
 
 const script: Firebot.CustomScript<vTubeParams> = {
   getScriptManifest: () => {
@@ -72,7 +73,7 @@ const script: Firebot.CustomScript<vTubeParams> = {
       fs,
       frontendCommunicator,
       replaceVariableManager,
-     // eventFilterManager,
+      eventFilterManager,
     } = modules;
 
     initRemote(
@@ -97,7 +98,11 @@ const script: Firebot.CustomScript<vTubeParams> = {
     effectManager.registerEffect(moveItemEffect);
     effectManager.registerEffect(loadItemEffect);
     effectManager.registerEffect(unloadItemEffect);
+
     eventManager.registerEventSource(VTUBEEventSource);
+
+    eventFilterManager.registerFilter(ModelNameEventFilter);
+
     replaceVariableManager.registerReplaceVariable(getArtMeshListVariable);
     replaceVariableManager.registerReplaceVariable(getAvailableModelsVariable);
     replaceVariableManager.registerReplaceVariable(getCurrentModelVarable);
