@@ -13,7 +13,7 @@ export const unloadItemEffect: Firebot.EffectType<ItemUnloadEffect> = {
         id: "vtube:unload-item",
         name: "VTube Unload Item",
         description: "Unload all or selected items",
-        icon: "fad fa-keyboard",
+        icon: "fad fa-trash-can",
         categories: ["common"],
     },
     /**

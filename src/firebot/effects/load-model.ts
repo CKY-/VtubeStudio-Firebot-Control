@@ -17,7 +17,7 @@ export const loadModelEffect: Firebot.EffectType<{
         id: "vtube:load-model",
         name: "VTube Load Model",
         description: "Load a model",
-        icon: "fad fa-keyboard",
+        icon: "fad fa-people-arrows",
         categories: ["common"],
     },
     /**

@@ -27,7 +27,7 @@ export const moveItemEffect: Firebot.EffectType<{
     id: "vtube:move-item",
     name: "VTube Move Item",
     description: "Move the current items in any direction",
-    icon: "fad fa-keyboard",
+    icon: "fad fa-person-dolly-empty",
     categories: ["common"],
   },
   /**
