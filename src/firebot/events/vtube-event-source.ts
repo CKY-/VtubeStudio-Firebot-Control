@@ -21,7 +21,9 @@ export const VTUBEEventSource: EventSource = {
             id: ModelLoadedEvent,
             name: "VTUBE Model Loaded",
             description: "When the modle is loaded",
-            manualMetadata: {},
+            manualMetadata: {
+                modelName: "Test Model Name",
+            },
         },
         {
             id: TrackingStatusChangedEvent,
@@ -33,15 +35,21 @@ export const VTUBEEventSource: EventSource = {
             id: BackgroundChangedEvent,
             name: "VTUBE Background Changed",
             description: "When the background changes",
-            manualMetadata: {},
+            manualMetadata: {
+                backgroundName: "Test Background Name"
+            },
         },
         {
             id: ModelMovedEvent,
             name: "VTUBE Model Moved",
             description: "When the model moves",
             manualMetadata: {
-                data: userdata,
-            },
+                modelName: "Test Model Name",
+                positionX: "Test Model PositionX",
+                positionY: "Test Model PositionY",
+                rotation: "Test Model RotationX",
+                size: "Test Model Size"
+            }
         },
         {
             id: ModelConfigChangedEvent,

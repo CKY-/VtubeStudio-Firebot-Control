@@ -405,6 +405,7 @@ async function maintainConnection(
                 authTokenSetter: setAuthToken,
                 pluginName: "VTube FireBot Control",
                 pluginDeveloper: "CKY",
+                pluginIcon:`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`,
                 webSocketFactory: (url: any) => new WebSocket(url),
                 url: `ws://${ip}:${port}`,
                 port
@@ -421,38 +422,53 @@ async function maintainConnection(
                 availableModels = await vtube.availableModels()
                 console.log('Adding event callback whenever a model is loaded')
                 await vtube.events.modelLoaded.subscribe((data) => {
+                    if (logging) {
+                        logger.debug("modelLoaded", data)
+                    }
                     if (data.modelLoaded) {
                         eventManager?.triggerEvent(
                             VTUBE_EVENT_SOURCE_ID,
                             ModelLoadedEvent,
                             {
-                                data
+                                modelName:  data.modelName,
+                                modelID: data.modelID
                             }
                         );
                     }
                 })
 
                 await vtube.events.backgroundChanged.subscribe((data) => {
+                    if (logging) {
+                        logger.debug("backgroundChanged", data)
+                    }
                     eventManager?.triggerEvent(
                         VTUBE_EVENT_SOURCE_ID,
                         BackgroundChangedEvent,
                         {
-                            data
+                            backgroundName: data.backgroundName
                         }
                     );
                 })
 
                 await vtube.events.trackingStatusChanged.subscribe((data) => {
+                    if (logging) {
+                        logger.debug("trackingStatusChanged", data)
+                    }
                     eventManager?.triggerEvent(
                         VTUBE_EVENT_SOURCE_ID,
                         TrackingStatusChangedEvent,
                         {
-                            data
+                            faceFound: data.faceFound,
+                            leftHandFound: data.leftHandFound,
+                            rightHandFound: data.rightHandFound
                         }
                     );
                 })
 
                 await vtube.events.modelConfigChanged.subscribe((data) => {
+                    if (logging) {
+                        logger.debug("modelConfigChanged", data)
+                    }
                     eventManager?.triggerEvent(
                         VTUBE_EVENT_SOURCE_ID,
                         ModelConfigChangedEvent,
@@ -463,17 +479,26 @@ async function maintainConnection(
                 })
 
                 await vtube.events.modelMoved.subscribe((data) => {
-                    logger.debug("modelMoved", data)
+                    if (logging) {
+                        logger.debug("modelMoved", data)
+                    }
                     eventManager?.triggerEvent(
                         VTUBE_EVENT_SOURCE_ID,
                         ModelMovedEvent,
                         {
-                            data
+                            modelName: data.modelName,
+                            positionX: data.modelPosition.positionX,
+                            positionY: data.modelPosition.positionY,
+                            size: data.modelPosition.size,
+                            rotation: data.modelPosition.rotation
                         }
                     );
                 })
 
                 await vtube.events.modelOutline.subscribe((data) => {
+                    if (logging) {
+                        logger.debug("modelOutline", data)
+                    }
                     eventManager?.triggerEvent(
                         VTUBE_EVENT_SOURCE_ID,
                         ModelOutlineEvent,
