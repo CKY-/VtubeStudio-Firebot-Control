@@ -28,7 +28,7 @@ export const loadItemEffect: Firebot.EffectType<{
     id: "vtube:load-item",
     name: "VTube Load Item",
     description: "Load a new item to the scene",
-    icon: "fad fa-box-open-full",
+    icon: "fad fa-box-full",
     categories: ["common"],
   },
   /**

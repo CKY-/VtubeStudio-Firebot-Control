@@ -20,7 +20,7 @@ export const moveModelEffect: Firebot.EffectType<{
     id: "vtube:move-model",
     name: "VTube Move Model",
     description: "Move the current model in any direction",
-    icon: "fad fa-arrows-turn-to-dots",
+    icon: "fad fa-repeat",
     categories: ["common"],
   },
   /**
