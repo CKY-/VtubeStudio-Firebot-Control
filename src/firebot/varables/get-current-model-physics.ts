@@ -4,7 +4,7 @@ import { getCurrentModelPhysics } from "../vtube-remote";
 export const getCurrentModelPhysicsVariable: ReplaceVariable = {
     definition: {
         handle: "vtubegetCurrentModelPhysics",
-        description: "An array of Hotkeys In Current Model.",
+        description: "An array of Physics In Current Model.",
         possibleDataOutput: ["text"],
     },
     evaluator: async () => {
