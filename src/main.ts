@@ -7,9 +7,9 @@ import { vTubeParams } from "./firebot/types";
 import { getItemListVariable } from "./firebot/varables/get-item-list";
 import { getAvailableModelsVariable } from "./firebot/varables/get-available-models";
 import { getArtMeshListVariable } from "./firebot/varables/get-art-mesh-list";
-import { getCurrentModelVarable } from "./firebot/varables/get-current-models";
-import { getHotkeysInCurrentModelVaraible } from "./firebot/varables/get-hotkeys-in-current-model";
-import { getLiveParameterListVarable } from "./firebot/varables/get-live-parameter-list";
+import { getCurrentModelVariable } from "./firebot/varables/get-current-models";
+import { getHotkeysInCurrentModelVariable } from "./firebot/varables/get-hotkeys-in-current-model";
+import { getLiveParameterListVariable } from "./firebot/varables/get-live-parameter-list";
 import { expressionStateEffect } from "./firebot/effects/expresion-state";
 import { triggerHotkeyEffect } from "./firebot/effects/trigger-hotkey";
 import { moveModelEffect } from "./firebot/effects/move-model";
@@ -24,7 +24,7 @@ const script: Firebot.CustomScript<vTubeParams> = {
   getScriptManifest: () => {
     return {
       name: "Vtube Studio Script",
-      description: "Vtube Studio Script for controling vtube",
+      description: "VTube Studio Script for controlling VTube Studio",
       author: "CKY",
       version: "1.0.1",
       firebotVersion: "5",
@@ -105,9 +105,9 @@ const script: Firebot.CustomScript<vTubeParams> = {
 
     replaceVariableManager.registerReplaceVariable(getArtMeshListVariable);
     replaceVariableManager.registerReplaceVariable(getAvailableModelsVariable);
-    replaceVariableManager.registerReplaceVariable(getCurrentModelVarable);
-    replaceVariableManager.registerReplaceVariable(getHotkeysInCurrentModelVaraible);
-    replaceVariableManager.registerReplaceVariable(getLiveParameterListVarable);
+    replaceVariableManager.registerReplaceVariable(getCurrentModelVariable);
+    replaceVariableManager.registerReplaceVariable(getHotkeysInCurrentModelVariable);
+    replaceVariableManager.registerReplaceVariable(getLiveParameterListVariable);
     replaceVariableManager.registerReplaceVariable(getItemListVariable);
   },
 };

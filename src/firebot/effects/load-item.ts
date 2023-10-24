@@ -81,8 +81,8 @@ export const loadItemEffect: Firebot.EffectType<{
                     <input ng-model="effect.fadeTime" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
               </div> 
               <div class="input-group" style="margin-top:10px" >
-                    <span class="input-group-addon" id="delay-length-effect-type">Smothing</span>
-                    <input ng-model="effect.smothing" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
+                    <span class="input-group-addon" id="delay-length-effect-type">Smoothing</span>
+                    <input ng-model="effect.smoothing" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
               </div> 
       </eos-container>
       <eos-container header="Item Information">

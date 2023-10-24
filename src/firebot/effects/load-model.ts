@@ -1,6 +1,6 @@
 "use strict";
 import { Firebot } from "@crowbartools/firebot-custom-scripts-types";
-import { AvailableModelsVariable, CurrentModelVariable } from "../types";
+import { AvailableModelsVariable } from "../types";
 import { loadModel, getCurrentModel, getAvailableModels } from "../vtube-remote"
 /**
 * The Trigger Hotkey Effect

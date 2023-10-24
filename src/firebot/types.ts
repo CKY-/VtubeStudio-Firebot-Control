@@ -19,7 +19,7 @@ export type vTubeParams = {
     logging: boolean;
 };
 
-export type modeldata = {
+export type modelData = {
     modelID: string,
     modelName: string,
     modelPosition: {
@@ -197,7 +197,7 @@ export type ParameterValue = {
     name: string
 };
 
-export type LiveParameterListVaraible = {
+export type LiveParameterListVariable = {
     modelLoaded: boolean,
     modelName: string,
     modelID: string,

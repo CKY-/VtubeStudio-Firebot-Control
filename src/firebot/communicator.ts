@@ -18,7 +18,7 @@ import {
     HotkeysInCurrentModelVariable,
     ItemListVariable,
     GetCurrentModelPhysicsVariable,
-    LiveParameterListVaraible
+    LiveParameterListVariable
 } from "./types"
 
 export function setupFrontendListeners(
@@ -54,7 +54,7 @@ export function setupFrontendListeners(
         getCurrentModelPhysics
     );
 
-    frontendCommunicator.onAsync<never, LiveParameterListVaraible>(
+    frontendCommunicator.onAsync<never, LiveParameterListVariable>(
         "vtube-get-live-parameter-list",
         getLiveParameterList
     );

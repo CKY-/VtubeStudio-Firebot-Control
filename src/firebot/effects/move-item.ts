@@ -1,6 +1,6 @@
 "use strict";
 import { Firebot } from "@crowbartools/firebot-custom-scripts-types";
-import { ItemListVariable, ItemMoveEffect } from "../types";
+import { ItemListVariable } from "../types";
 import { moveItem } from "../vtube-remote"
 /**
 * The Trigger Hotkey Effect

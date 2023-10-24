@@ -1,9 +1,9 @@
 import { ReplaceVariable } from "@crowbartools/firebot-custom-scripts-types/types/modules/replace-variable-manager";
 import { getCurrentModel } from "../vtube-remote";
 
-export const getCurrentModelVarable: ReplaceVariable = {
+export const getCurrentModelVariable: ReplaceVariable = {
     definition: {
-        handle: "vtubeCurrentModel",
+        handle: "vtubeCurrentModelVariable",
         description: "An array of Available Models 'loaded'.",
         possibleDataOutput: ["text"],
     },

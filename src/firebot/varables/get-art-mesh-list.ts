@@ -4,7 +4,7 @@ import { getArtMeshList } from "../vtube-remote";
 export const getArtMeshListVariable: ReplaceVariable = {
     definition: {
         handle: "vtubeArtMeshList",
-        description: "An array of Art meshs 'loaded'.",
+        description: "An array of Art meshes 'loaded'.",
         possibleDataOutput: ["text"],
     },
     evaluator: async () => {

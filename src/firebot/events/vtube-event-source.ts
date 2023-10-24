@@ -8,11 +8,7 @@ import {
     ModelMovedEvent,
     ModelOutlineEvent
 } from "../constants";
-import {
-    modeldata,
-} from "../types";
 
-let userdata: modeldata
 export const VTUBEEventSource: EventSource = {
     id: VTUBE_EVENT_SOURCE_ID,
     name: "VTUBE",
@@ -20,7 +16,7 @@ export const VTUBEEventSource: EventSource = {
         {
             id: ModelLoadedEvent,
             name: "VTUBE Model Loaded",
-            description: "When the modle is loaded",
+            description: "When the model is loaded",
             manualMetadata: {
                 modelName: "Test Model Name",
             },
@@ -59,8 +55,8 @@ export const VTUBEEventSource: EventSource = {
         },
         {
             id: ModelOutlineEvent,
-            name: "VTUBE Model Outlin Changed",
-            description: "When the outlin of the model chnages",
+            name: "VTUBE Model Outline Changed",
+            description: "When the outline of the model changes",
             manualMetadata: {},
         },
     ],

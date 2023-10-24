@@ -9,7 +9,7 @@ import {
     CurrentModelVariable,
     ItemListVariable,
     GetCurrentModelPhysicsVariable,
-    LiveParameterListVaraible,
+    LiveParameterListVariable,
     HotkeyTriggerEffect,
     ExpressionStateEffect,
     ExpressionActivationEffect,
@@ -46,7 +46,7 @@ export let hotkeysInCurrentModel: HotkeysInCurrentModelVariable;
 export let hotkeyTrigger: HotkeyTriggerEffect;
 export let itemListVariable: ItemListVariable;
 export let currentModelPhysicsVariable: GetCurrentModelPhysicsVariable
-export let liveParameterList: LiveParameterListVaraible
+export let liveParameterList: LiveParameterListVariable
 export let expressionActivation: ExpressionActivationEffect
 
 export function initRemote(
@@ -114,7 +114,7 @@ export async function getHotkeysInCurrentModel(): Promise<HotkeysInCurrentModelV
     return hotkeysInCurrentModel;
 }
 
-export async function getLiveParameterList(): Promise<LiveParameterListVaraible> {
+export async function getLiveParameterList(): Promise<LiveParameterListVariable> {
     liveParameterList = await vtube.live2DParameterList();
     if (logging) {
         logger.debug("Vtube-liveParameterList: ", liveParameterList)
@@ -122,9 +122,9 @@ export async function getLiveParameterList(): Promise<LiveParameterListVaraible>
     return liveParameterList;
 }
 
-export async function getItemList(itemfiles = true, spots = true, inScene = true, fileName = "", instanceID = ""): Promise<ItemListVariable> {
+export async function getItemList(itemFiles = true, spots = true, inScene = true, fileName = "", instanceID = ""): Promise<ItemListVariable> {
     let data = {
-        includeAvailableItemFiles: itemfiles,
+        includeAvailableItemFiles: itemFiles,
         includeAvailableSpots: spots,
         includeItemInstancesInScene: inScene,
         onlyItemsWithFileName: fileName,
@@ -385,7 +385,7 @@ async function maintainConnection(
     if (!connected) {
         try {
             if (logging) {
-                logger.debug("Trying to connect to VtubeStudo...");
+                logger.debug("Trying to connect to VtubeStudio...");
                 logger.debug("object", vtube)
                 logger.debug("url", `ws://${ip}:${port}`)
                 logger.debug("port", port)
