@@ -53,13 +53,13 @@ export function initRemote(
     {
         ip,
         port,
-        token,
+        tokenFile,
         logging,
         forceConnect,
     }: {
         ip: string;
         port: number;
-        token: string;
+        tokenFile: string;
         logging: boolean;
         forceConnect?: boolean;
     },
@@ -71,7 +71,7 @@ export function initRemote(
     eventManager = modules.eventManager;
     fs = modules.fs;
     logging = logging ?? false
-    maintainConnection(ip, port, token, logging, forceConnect);
+    maintainConnection(ip, port, tokenFile, logging, forceConnect);
 }
 
 export async function getAvailableModels(): Promise<AvailableModelsVariable> {
@@ -368,7 +368,7 @@ export async function triggerExpressionActivation(file: string, active: boolean 
 async function maintainConnection(
     ip: string,
     port: number,
-    token: string,
+    tokenFile: string,
     logging: boolean,
     forceClose = false
 ) {
@@ -391,14 +391,14 @@ async function maintainConnection(
                 logger.debug("port", port)
             }
             function setAuthToken(authenticationToken: string): Promise<void> {
-                fs.writeFileSync(token, authenticationToken, {
+                fs.writeFileSync(tokenFile, authenticationToken, {
                     encoding: "utf-8",
                 });
                 return;
             }
 
             function getAuthToken() {
-                return fs.readFileSync(token, "utf-8");
+                return fs.readFileSync(tokenFile, "utf-8");
             }
             vtube = new ApiClient({
                 authTokenGetter: getAuthToken,
@@ -516,7 +516,7 @@ async function maintainConnection(
                 try {
                     logger.info("VtubeStudo Connection lost, attempting again in 10 secs.");
                     reconnectTimeout = setTimeout(
-                        () => maintainConnection(ip, port, token, logging),
+                        () => maintainConnection(ip, port, tokenFile, logging),
                         10000
                     );
                 } catch (err) {
@@ -534,7 +534,7 @@ async function maintainConnection(
                 logger.debug(error);
             }
             reconnectTimeout = setTimeout(
-                () => maintainConnection(ip, port, token, logging),
+                () => maintainConnection(ip, port, tokenFile, logging),
                 10000
             );
         }

@@ -4,7 +4,7 @@ export type vTubeSettings = {
     websocketSettings: {
         ipAddress: string;
         port: number;
-        token: string;
+        tokenFile: string;
     };
     misc: {
         logging: boolean;
@@ -15,7 +15,7 @@ export type vTubeSettings = {
 export type vTubeParams = {
     ipAddress: string;
     port: number;
-    token: string;
+    tokenFile: string;
     logging: boolean;
 };
 

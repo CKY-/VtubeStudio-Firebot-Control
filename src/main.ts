@@ -48,12 +48,12 @@ const script: Firebot.CustomScript<vTubeParams> = {
         secondaryDescription:
           "Port the Vtube Websocket is running on. Default is 8001.",
       },
-      token: {
+      tokenFile: {
         type: "string",
         default: "",
         description: "Token file",
         secondaryDescription:
-          "Token of the Vtube Websocket. Create a file and use it.",
+          "Specify a text file for the token to be stored.",
       },
       logging: {
         type: "boolean",
@@ -80,7 +80,7 @@ const script: Firebot.CustomScript<vTubeParams> = {
       {
         ip: parameters.ipAddress,
         port: parameters.port, 
-        token: parameters.token,
+        tokenFile: parameters.tokenFile,
         logging: parameters.logging,
       },
       {
