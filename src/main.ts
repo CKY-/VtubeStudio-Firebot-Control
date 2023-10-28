@@ -26,7 +26,7 @@ const script: Firebot.CustomScript<vTubeParams> = {
       name: "Vtube Studio Script",
       description: "VTube Studio Script for controlling VTube Studio",
       author: "CKY",
-      version: "1.0.1",
+      version: "1.0.3",
       firebotVersion: "5",
       startupOnly: true,
     };
