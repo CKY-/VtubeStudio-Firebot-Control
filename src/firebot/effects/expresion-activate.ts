@@ -1,4 +1,5 @@
 "use strict";
+import { basename } from "path"
 import { Firebot } from "@crowbartools/firebot-custom-scripts-types";
 import { triggerExpressionActivation } from "../vtube-remote"
 /**
@@ -24,12 +25,12 @@ export const expressionActivationEffect: Firebot.EffectType<{
     */
     optionsTemplate: `
         <eos-container header="File">
-            <file-chooser model="effect.filepath" options="{ filters: [ {name:'All',extensions:['*']} ]}"></file-chooser>
+            <file-chooser model="effect.filepath" options="{ filters: [ { name:'exp3.json', extensions:['json']} ]}"></file-chooser>
         </eos-container>
 
         <eos-container header="Options" pad-top="true">
             <div style="padding-top:15px">
-                <label class="control-fb control--checkbox"> Activate 
+                <label class="control-fb control--checkbox">Activate
                     <input type="checkbox" ng-model="effect.activate">
                     <div class="control__indicator"></div>
                 </label>
@@ -60,7 +61,9 @@ export const expressionActivationEffect: Firebot.EffectType<{
     * When the effect is triggered by something
     */
     onTriggerEvent: async event => {
-        await triggerExpressionActivation(event.effect.filepath, event.effect.activate);
+        let filename = basename(event.effect.filepath);
+
+        await triggerExpressionActivation(filename, event.effect.activate);
         return true;
     }
 };

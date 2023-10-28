@@ -30,7 +30,7 @@ export const moveModelEffect: Firebot.EffectType<{
   optionsTemplate: `
       <eos-container header="Model Position">
               <div class="input-group">
-                    <span class="input-group-addon" id="delay-length-effect-type">timeInSeconds</span>
+                    <span class="input-group-addon" id="delay-length-effect-type">Time In Seconds</span>
                     <input ng-model="effect.timeInSeconds" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
               </div> 
               <div style="padding-top:20px">
@@ -40,19 +40,19 @@ export const moveModelEffect: Firebot.EffectType<{
                 </label>
               </div>
               <div class="input-group">
-                    <span class="input-group-addon" id="delay-length-effect-type">positionX</span>
+                    <span class="input-group-addon" id="delay-length-effect-type">Position X</span>
                     <input ng-model="effect.positionX" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
               </div>
               <div class="input-group" style="margin-top:10px" >
-                    <span class="input-group-addon" id="delay-length-effect-type">positionY</span>
+                    <span class="input-group-addon" id="delay-length-effect-type">Position Y</span>
                     <input ng-model="effect.positionY" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
               </div> 
               <div class="input-group" style="margin-top:10px" >
-                    <span class="input-group-addon" id="delay-length-effect-type">rotation</span>
+                    <span class="input-group-addon" id="delay-length-effect-type">Rotation</span>
                     <input ng-model="effect.rotation" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
               </div>
               <div class="input-group" style="margin-top:10px" >
-                    <span class="input-group-addon" id="delay-length-effect-type">size</span>
+                    <span class="input-group-addon" id="delay-length-effect-type">Size</span>
                     <input ng-model="effect.size" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
               </div> 
           <p>
@@ -80,6 +80,7 @@ export const moveModelEffect: Firebot.EffectType<{
           $scope.effect.size = $scope.effect.size ?? $scope.modelCollections.size 
         }); 
     };
+
     $scope.getCurrentModel();
     $scope.reloadCurrentModel = () => {
       $q.when(backendCommunicator.fireEventAsync("vtube-get-current-model")).then(

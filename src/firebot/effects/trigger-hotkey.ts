@@ -24,7 +24,7 @@ export const triggerHotkeyEffect: Firebot.EffectType<{
     * You can alternatively supply a url to a html file via optionTemplateUrl
     */
     optionsTemplate: `
-      <eos-container header="Hotkey selection">
+      <eos-container header="Hotkey Selection">
         <ui-select ng-model="selected" on-select="selectKey($select.selected.hotkeyID, $select.selected.name)">
           <ui-select-match placeholder="Select a HotKey...">{{$select.selected.name}}</ui-select-match>
           <ui-select-choices repeat="key in keyCollections.availableHotkeys | filter: {name: $select.search}">

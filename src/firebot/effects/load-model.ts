@@ -27,7 +27,7 @@ export const loadModelEffect: Firebot.EffectType<{
     optionsTemplate: `
         <eos-container header="Model Mode" pad-top="true">
             <div class="controls-fb" style="padding-bottom: 5px;">
-                <label class="control-fb control--radio">Load Model   <tooltip text="'Allows selection of model to load'"></tooltip>
+                <label class="control-fb control--radio">Load Model <tooltip text="'Allows selection of model to load'"></tooltip>
                     <input type="radio" ng-model="effect.loadMode" value="model"/>
                     <div class="control__indicator"></div>
                 </label>
