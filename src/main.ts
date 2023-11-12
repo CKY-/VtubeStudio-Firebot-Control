@@ -49,7 +49,7 @@ const script: Firebot.CustomScript<vTubeParams> = {
           "Port the Vtube Websocket is running on. Default is 8001.",
       },
       tokenFile: {
-        type: "string",
+        type: "filepath",
         default: "",
         description: "Token file",
         secondaryDescription:
