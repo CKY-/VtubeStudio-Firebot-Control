@@ -390,10 +390,11 @@ async function maintainConnection(
         try {
             if (logging) {
                 logger.debug("Trying to connect to VtubeStudio...");
-                logger.debug("object", vtube)
-                logger.debug("url", `ws://${ip}:${port}`)
-                logger.debug("port", port)
+                logger.debug("object: ", vtube)
+                logger.debug("url: ", `ws://${ip}:${port}`)
+                logger.debug("port: ", port)
             }
+
             function setAuthToken(authenticationToken: string): Promise<void> {
                 fs.writeFileSync(tokenFile, authenticationToken, {
                     encoding: "utf-8",
@@ -404,7 +405,7 @@ async function maintainConnection(
             function getAuthToken() {
                 return fs.readFileSync(tokenFile, "utf-8");
             }
-
+            logger.info("populating VtubeStudo.");
             vtube = new ApiClient({
                 authTokenGetter: getAuthToken,
                 authTokenSetter: setAuthToken,
@@ -415,6 +416,8 @@ async function maintainConnection(
                 url: `ws://${ip}:${port}`,
                 port
             });
+            logger.info("populated VtubeStudo: ");
+            logger.info(JSON.stringify(vtube));
             connected = vtube.isConnected;
             if (connected) {
                 logger.info("Successfully connected to VtubeStudo.");
@@ -428,7 +431,7 @@ async function maintainConnection(
                 console.log('Adding event callback whenever a model is loaded')
                 await vtube.events.modelLoaded.subscribe((data) => {
                     if (logging) {
-                        logger.debug("modelLoaded", data)
+                        //logger.debug("modelLoaded", data)
                     }
                     if (data.modelLoaded) {
                         eventManager?.triggerEvent(
@@ -444,7 +447,7 @@ async function maintainConnection(
 
                 await vtube.events.backgroundChanged.subscribe((data) => {
                     if (logging) {
-                        logger.debug("backgroundChanged", data)
+                          logger.debug("backgroundChanged", data)
                     }
                     eventManager?.triggerEvent(
                         VTUBE_EVENT_SOURCE_ID,
@@ -457,7 +460,7 @@ async function maintainConnection(
 
                 await vtube.events.trackingStatusChanged.subscribe((data) => {
                     if (logging) {
-                        //logger.debug("trackingStatusChanged", data)
+                        logger.debug("trackingStatusChanged", data)
                     }
                     eventManager?.triggerEvent(
                         VTUBE_EVENT_SOURCE_ID,
@@ -472,7 +475,7 @@ async function maintainConnection(
 
                 await vtube.events.modelConfigChanged.subscribe((data) => {
                     if (logging) {
-                        logger.debug("modelConfigChanged", data)
+                         logger.debug("modelConfigChanged", data)
                     }
                     eventManager?.triggerEvent(
                         VTUBE_EVENT_SOURCE_ID,
@@ -485,7 +488,7 @@ async function maintainConnection(
 
                 await vtube.events.modelMoved.subscribe((data) => {
                     if (logging) {
-                        logger.debug("modelMoved", data)
+                         logger.debug("modelMoved", data)
                     }
                     eventManager?.triggerEvent(
                         VTUBE_EVENT_SOURCE_ID,
@@ -502,7 +505,7 @@ async function maintainConnection(
 
                 await vtube.events.modelOutline.subscribe((data) => {
                     if (logging) {
-                        //logger.debug("modelOutline", data)
+                        logger.debug("modelOutline", data)
                     }
                     eventManager?.triggerEvent(
                         VTUBE_EVENT_SOURCE_ID,
@@ -532,7 +535,7 @@ async function maintainConnection(
             vtube.on("error", (err) => {
                 logger.error("VtubeStudo Error", err);
             });
-
+            logger.debug("VtubeStudo end of try");
         } catch (error) {
             logger.debug("VtubeStudo Failed to connect, attempting again in 10 secs.");
             if (logging) {
