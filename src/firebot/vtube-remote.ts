@@ -337,7 +337,7 @@ export async function unloadItem(unloadAllInScene: boolean = false,
     return unloadedItems;
 }
 
-export async function expressionState(file: string, details: boolean = false ): Promise<ExpressionStateEffect> {
+export async function expressionState(file: string, details: boolean = false): Promise<ExpressionStateEffect> {
     let data: {
         details: boolean;
         expressionFile?: string;
@@ -357,7 +357,7 @@ export async function triggerExpressionActivation(file: string, active: boolean 
     let data: {
         expressionFile: string;
         active: boolean;
-    }={
+    } = {
         expressionFile: file,
         active: active
     }
@@ -415,10 +415,10 @@ async function maintainConnection(
                 url: `ws://${ip}:${port}`,
                 port
             });
-
-            logger.info("Successfully connected to VtubeStudo.");
-
             connected = vtube.isConnected;
+            if (connected) {
+                logger.info("Successfully connected to VtubeStudo.");
+            }
 
             vtube.on("connect", async () => {
                 const stats = await vtube.statistics()
