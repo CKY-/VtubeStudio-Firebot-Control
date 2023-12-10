@@ -15,6 +15,6 @@
 2. `npm install`
 
 ### Building
-1. `npm run build`
+1. `npm run build:dev`
 2. Copy the `.js` file in `/dist` to Firebot's `scripts` folder
  
