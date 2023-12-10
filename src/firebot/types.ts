@@ -17,6 +17,7 @@ export type vTubeParams = {
     port: number;
     tokenFile: string;
     logging: boolean;
+    loggingModelOutline: boolean;
 };
 
 export type modelData = {

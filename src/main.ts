@@ -26,7 +26,7 @@ const script: Firebot.CustomScript<vTubeParams> = {
       name: "Vtube Studio Script",
       description: "VTube Studio Script for controlling VTube Studio",
       author: "CKY",
-      version: "1.0.4",
+      version: "1.0.5",
       firebotVersion: "5",
       startupOnly: true,
     };
@@ -58,7 +58,13 @@ const script: Firebot.CustomScript<vTubeParams> = {
       logging: {
         type: "boolean",
         default: false,
-        description: "Enable logging for Vtube Errors",
+        description: "Enable logging for Vtube",
+      }, 
+
+      loggingModelOutline: {
+        type: "boolean",
+        default: false,
+        description: "Enable logging for Vtube Outline Info, Will flood the log file ",
       },
     };
   },
@@ -82,6 +88,7 @@ const script: Firebot.CustomScript<vTubeParams> = {
         port: parameters.port, 
         tokenFile: parameters.tokenFile,
         logging: parameters.logging,
+        loggingModelOutline: parameters.loggingModelOutline,
       },
       {
         eventManager,
