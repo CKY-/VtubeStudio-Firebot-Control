@@ -136,6 +136,7 @@ export const loadItemEffect: Firebot.EffectType<{
             item.fileName === $scope.effect.fileName);
         });
     };
+    
     $scope.getItemList();
     $scope.reloadItemList = () => {
       $q.when(backendCommunicator.fireEventAsync("vtube-get-item-list")).then(
