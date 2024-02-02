@@ -1,7 +1,7 @@
 {
   "name": "firebot-custom-script-vtubestudio",
   "scriptOutputName": "VtubeScript",
-  "version": "1.0.0",
+  "version": "1.0.6",
   "description": "CustomScript to control VtubeStudio",
   "main": "",
   "scripts": {
