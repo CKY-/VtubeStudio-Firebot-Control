@@ -20,6 +20,7 @@ import { unloadItemEffect } from "./firebot/effects/unload-item";
 import { loadModelEffect } from "./firebot/effects/load-model";
 import { ModelNameEventFilter } from "./firebot/filters/model-loaded-filter";
 import { colorTintEffect } from "./firebot/effects/color-tint";
+import { pinItemEffect } from "./firebot/effects/pin-item";
 
 const script: Firebot.CustomScript<vTubeParams> = {
   getScriptManifest: () => {
@@ -107,6 +108,7 @@ const script: Firebot.CustomScript<vTubeParams> = {
     effectManager.registerEffect(loadItemEffect);
     effectManager.registerEffect(unloadItemEffect);
     effectManager.registerEffect(colorTintEffect);
+    effectManager.registerEffect(pinItemEffect);
 
     eventManager.registerEventSource(VTUBEEventSource);
 

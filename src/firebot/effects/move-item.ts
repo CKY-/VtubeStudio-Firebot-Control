@@ -55,7 +55,7 @@ export const moveItemEffect: Firebot.EffectType<{
       </eos-container>
       <eos-container header="Fade Mode"> 
             <div style="padding-top:10px; padding-bottom:10px;">
-               <dropdown-select options="Fade Mode" selected="effect.fadeMode"></dropdown-select>
+               <dropdown-select options="fadeMode" selected="effect.fadeMode"></dropdown-select>
             </div>
       </eos-container>
       <eos-container header="Item Position">

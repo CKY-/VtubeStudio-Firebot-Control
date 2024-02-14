@@ -413,3 +413,43 @@ export type ModelOutlineEvent = {
     convexHullCenter: { x: number, y: number },
     windowSize: { x: number, y: number },
 }
+// export type itemPin ={
+// //     {
+// //     "pin": true,
+// //     "itemInstanceID": "4a241269394f463ca16b8b21aa636568",
+// //     "angleRelativeTo": "RelativeToModel",
+// //     "sizeRelativeTo": "RelativeToWorld",
+// //     "vertexPinType": "Provided",
+// //     "pinInfo": {
+// //        "modelID": "d87b771d2902473bbaa0226d03ef4754",
+// //        "artMeshID": "hair_right_4",
+// //        "angle": 23.938,
+// //        "size": 0.33,
+// //        "vertexID1": 17,
+// //        "vertexID2": 9,
+// //        "vertexID3": 55,
+// //        "vertexWeight1": 0.25928378105163576,
+// //        "vertexWeight2": 0.6850675940513611,
+// //        "vertexWeight3": 0.055648624897003177
+// //     }
+// // }
+// }
+export type ItemPin = {
+    itemInstanceID: string
+    pin: true
+    angleRelativeTo: 'RelativeToWorld' | 'RelativeToCurrentItemRotation' | 'RelativeToModel' | 'RelativeToPinPosition'
+    sizeRelativeTo: 'RelativeToWorld' | 'RelativeToCurrentItemSize'
+    vertexPinType: 'Provided' | 'Center' | 'Random'
+    pinInfo: {
+        modelID?: string
+        artMeshID?: string
+        angle: number
+        size: number
+        vertexID1?: number
+        vertexID2?: number
+        vertexID3?: number
+        vertexWeight1?: number
+        vertexWeight2?: number
+        vertexWeight3?: number
+    }
+}

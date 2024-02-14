@@ -37,7 +37,7 @@ export const colorTintEffect: Firebot.EffectType<ColorTint> = {
               <div class="input-group">
                     <span class="input-group-addon" id="delay-length-effect-type">R</span>
                     <input ng-model="effect.colorTint.colorR" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
-              </div>
+                    </div>
               <div class="input-group" style="margin-top:10px" >
                     <span class="input-group-addon" id="delay-length-effect-type">G</span>
                     <input ng-model="effect.colorTint.colorG" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
@@ -124,7 +124,6 @@ export const colorTintEffect: Firebot.EffectType<ColorTint> = {
     */
 
     onTriggerEvent: async event => {
-
         await colorTint(
             event.effect
         )

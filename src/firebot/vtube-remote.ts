@@ -15,7 +15,8 @@ import {
     ExpressionActivationEffect,
     movedItems,
     unloadedItems,
-    ColorTint
+    ColorTint,
+    ItemPin
 } from "./types";
 
 import {
@@ -156,10 +157,20 @@ export async function triggerHotkey(key: string): Promise<HotkeyTriggerEffect> {
     }
     return hotkeyTrigger;
 }
+
 export async function colorTint(data: ColorTint): Promise<void> {
     let config: IClientCallConfig
     await vtube.colorTint(data, config);
 }
+
+export async function pinItem(item: ItemPin) {
+    let itemPinned = vtube.itemPin(item)
+    if (logging) {
+        logger.debug("Vtube-itemPinned: ", itemPinned)
+    }
+    return itemPinned;
+}
+
 
 export async function moveModel(
     timeInSeconds: number,
