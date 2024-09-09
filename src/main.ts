@@ -37,6 +37,7 @@ const script: Firebot.CustomScript<vTubeParams> = {
   getDefaultParameters: () => {
     return {
       ipAddress: {
+        title: "string",
         type: "string",
         default: "localhost",
         description: "IP Address",
@@ -44,6 +45,7 @@ const script: Firebot.CustomScript<vTubeParams> = {
           "The ip address of the computer running Vtube. Use 'localhost' for the same computer.",
       },
       port: {
+        title: "string",
         type: "number",
         default: 8001,
         description: "Port",
@@ -51,6 +53,7 @@ const script: Firebot.CustomScript<vTubeParams> = {
           "Port the Vtube Websocket is running on. Default is 8001.",
       },
       tokenFile: {
+        title: "string",
         type: "filepath",
         default: "",
         description: "Token file",
@@ -58,12 +61,14 @@ const script: Firebot.CustomScript<vTubeParams> = {
           "Specify a text file for the token to be stored.",
       },
       logging: {
+        title: "string",
         type: "boolean",
         default: false,
         description: "Enable logging for Vtube",
       }, 
 
       loggingModelOutline: {
+        title: "string",
         type: "boolean",
         default: false,
         description: "Enable logging for Vtube Outline Info, Will flood the log file ",

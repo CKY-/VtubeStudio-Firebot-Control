@@ -1,7 +1,7 @@
 {
   "name": "firebot-custom-script-vtubestudio",
   "scriptOutputName": "VtubeScript",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "CustomScript to control VtubeStudio",
   "main": "",
   "scripts": {
@@ -13,7 +13,7 @@
   "author": "CKY",
   "license": "GNU3",
   "devDependencies": {
-    "@crowbartools/firebot-custom-scripts-types": "^5.60.1",
+    "@crowbartools/firebot-custom-scripts-types": "^5.63.0",
     "@types/jquery": "^3.5.29",
     "@types/node": "^18.18.2",
     "@types/uuid": "^9.0.7",
@@ -26,15 +26,15 @@
     "webpack-cli": "^5.1.4"
   },
   "volta": {
-    "node": "18.18.2",
-    "npm": "10.2.4"
+    "node": "20.14.0",
+    "npm": "10.8.1"
   },
   "dependencies": {
     "@types/ws": "^8.5.6",
     "bufferutil": "^4.0.8",
     "tiny-typed-emitter": "^2.1.0",
     "utf-8-validate": "^6.0.3",
-    "vtubestudio": "^3.4.0",
+    "vtubestudio": "^3.10.1",
     "ws": "^8.16.0"
   }
 }

@@ -111,7 +111,12 @@ export async function getCurrentModelPhysics(): Promise<GetCurrentModelPhysicsVa
 }
 
 export async function getHotkeysInCurrentModel(): Promise<HotkeysInCurrentModelVariable> {
-    hotkeysInCurrentModel = await vtube.hotkeysInCurrentModel();
+    let data: {
+        modelID?: string | undefined;
+        live2DItemFileName?: string | undefined;
+    }
+
+    hotkeysInCurrentModel = await vtube.hotkeysInCurrentModel(data);
     if (logging) {
         logger.debug("Vtube-hotkeysInCurrentModel: ", hotkeysInCurrentModel)
     }
@@ -164,7 +169,8 @@ export async function colorTint(data: ColorTint): Promise<void> {
 }
 
 export async function pinItem(item: ItemPin) {
-    let itemPinned = vtube.itemPin(item)
+    // @ts-ignore
+    let itemPinned = await vtube.itemPin(item);
     if (logging) {
         logger.debug("Vtube-itemPinned: ", itemPinned)
     }
@@ -467,7 +473,9 @@ async function maintainConnection(
                             }
                         );
                     }
-                })
+                }, {});
+
+                // await vtube.events.modelLoaded.subscribe({ sub: (data) => { }}, config);
 
                 await vtube.events.backgroundChanged.subscribe((data) => {
                     if (logging) {
@@ -480,7 +488,7 @@ async function maintainConnection(
                             backgroundName: data.backgroundName
                         }
                     );
-                })
+                }, {})
 
                 await vtube.events.trackingStatusChanged.subscribe((data) => {
                     if (logging) {
@@ -495,7 +503,7 @@ async function maintainConnection(
                             rightHandFound: data.rightHandFound
                         }
                     );
-                })
+                }, {})
 
                 await vtube.events.modelConfigChanged.subscribe((data) => {
                     if (logging) {
@@ -508,7 +516,7 @@ async function maintainConnection(
                             data
                         }
                     );
-                })
+                }, {})
 
                 await vtube.events.modelMoved.subscribe((data) => {
                     if (logging) {
@@ -525,7 +533,7 @@ async function maintainConnection(
                             rotation: data.modelPosition.rotation
                         }
                     );
-                })
+                }, {})
 
                 await vtube.events.modelOutline.subscribe((data) => {
                     if (loggingModelOutline) {
@@ -538,7 +546,7 @@ async function maintainConnection(
                             data
                         }
                     );
-                })
+                }, {})
             })
 
             vtube.on("disconnect", () => {

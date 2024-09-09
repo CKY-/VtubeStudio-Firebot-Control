@@ -2,15 +2,16 @@
 import { Firebot } from "@crowbartools/firebot-custom-scripts-types";
 import { AvailableModelsVariable, ItemListVariable, ItemPin } from "../types";
 import { pinItem } from "../vtube-remote"
+
 /**
 * The Trigger Hotkey Effect
 */
-type effectType = {
+type EffectType = {
     itemSelected: string;
     modelSelected: string;
     data: ItemPin;
 }
-export const pinItemEffect: Firebot.EffectType<effectType> = {
+export const pinItemEffect: Firebot.EffectType<EffectType> = {
     /**
     * The definition of the Effect
     */
@@ -115,7 +116,7 @@ export const pinItemEffect: Firebot.EffectType<effectType> = {
       </eos-container>
       <eos-container pad-top="true" class="ng-isolate-scope">
             <div class="effect-info alert alert-warning ng-scope">
-               Note: All items must be added in VTube Studio. 
+               Note: All items must be loaded in VTube Studio. 
             </div>
       </eos-container>
     `,
@@ -127,10 +128,12 @@ export const pinItemEffect: Firebot.EffectType<effectType> = {
         $scope.angleRelativeTo = ['RelativeToWorld' , 'RelativeToCurrentItemRotation' , 'RelativeToModel' , 'RelativeToPinPosition']
         $scope.sizeRelativeTo = ['RelativeToWorld' , 'RelativeToCurrentItemSize']
         $scope.vertexPinType = ['Provided', 'Center', 'Random']
-        $scope.effect.data = {};
-        $scope.effect.data.pinInfo = {};
-        $scope.effect.data.itemInstanceID="";
-
+        if ($scope.effect.data == null) {
+            $scope.effect.data = {};
+            $scope.effect.data.pinInfo = {};
+            $scope.effect.data.itemInstanceID="";
+        }
+      
         $scope.modelCollections = [];
         $scope.selectModel = (modelID: string, modelName: string) => {
             $scope.effect.data.pinInfo.modelID = modelID;
@@ -141,9 +144,9 @@ export const pinItemEffect: Firebot.EffectType<effectType> = {
             $q.when(backendCommunicator.fireEventAsync("vtube-get-available-models")).then(
                 (modelCollections: AvailableModelsVariable) => {
                     $scope.modelCollections = modelCollections.availableModels ?? [];
-                    $scope.selected = $scope.modelCollections.find((model: { modelName: string; }) =>
+                    $scope.modelSelected = $scope.modelCollections.find((model: { modelName: string; }) => {
                         model.modelName === $scope.effect.modelName
-                    );
+                    });
                 });
         };
 
@@ -168,8 +171,9 @@ export const pinItemEffect: Firebot.EffectType<effectType> = {
             $q.when(backendCommunicator.fireEventAsync("vtube-get-item-list")).then(
                 (itemCollections: ItemListVariable) => {
                     $scope.itemCollections = itemCollections.itemInstancesInScene ?? [];
-                    $scope.selected = $scope.itemCollections.find((item: { fileNames: string; }) =>
-                        item.fileNames === $scope.effect.fileNames);
+                    $scope.itemSelected = $scope.itemCollections.find((item: { fileNames: string; }) => {
+                        item.fileNames === $scope.effect.fileNames
+                    });
                 });
         };
 
