@@ -160,7 +160,7 @@ export const loadItemEffect: Firebot.EffectType<{
   * When the effect is triggered by something
   */
   onTriggerEvent: async event => {
-    await loadItem(
+    let item = await loadItem(
       event.effect.fileName,
       event.effect.positionX,
       event.effect.positionY,
@@ -175,6 +175,12 @@ export const loadItemEffect: Firebot.EffectType<{
       event.effect.locked,
       event.effect.unloadWhenPluginDisconnects,
     );
-    return true;
+    return {
+      success: true,
+      outputs: {
+        itemInstanceID: item.instanceID,
+        itemFileName: item.fileName
+      }
+    };
   }
 };

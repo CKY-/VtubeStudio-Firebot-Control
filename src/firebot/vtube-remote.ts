@@ -240,7 +240,7 @@ export async function loadItem(
     locked?: boolean,
     unloadWhenPluginDisconnects?: boolean,
 
-): Promise<{ instanceID: string }> {
+): Promise<{ instanceID:string, fileName:string }> {
     let data: {
         fileName: string;
         positionX?: number;
