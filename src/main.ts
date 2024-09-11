@@ -1,5 +1,5 @@
 import { Firebot } from "@crowbartools/firebot-custom-scripts-types";
-import { initRemote } from "./firebot/vtube-remote";
+import {  initRemote } from "./firebot/vtube-remote";
 import { initLogger, logger } from "./logger";
 import { setupFrontendListeners } from "./firebot/communicator";
 import { VTUBEEventSource } from "./firebot/events/vtube-event-source";
@@ -37,6 +37,7 @@ const script: Firebot.CustomScript<vTubeParams> = {
 
   getDefaultParameters: () => {
     return {
+
       ipAddress: {
         title: "Ip Address",
         type: "string",
@@ -61,6 +62,12 @@ const script: Firebot.CustomScript<vTubeParams> = {
         secondaryDescription:
           "Specify a text file for the token to be stored.",
       },
+      onlyClicksOnModel: {
+        title: "onlyClicksOnModel",
+        type: "boolean",
+        default: false,
+        description: "Enable clicking for Vtube model",
+      },
       logging: {
         title: "Logging",
         type: "boolean",
@@ -78,6 +85,7 @@ const script: Firebot.CustomScript<vTubeParams> = {
   },
 
   run: ({ parameters, modules }) => {
+
     initLogger(modules.logger);
     logger.info("Starting Vtube Control...");
 
@@ -88,12 +96,14 @@ const script: Firebot.CustomScript<vTubeParams> = {
       frontendCommunicator,
       replaceVariableManager,
       eventFilterManager,
+      integrationManager
     } = modules;
 
     initRemote(
       {
         ip: parameters.ipAddress,
         port: parameters.port, 
+        onlyClicksOnModel: parameters.onlyClicksOnModel,
         tokenFile: parameters.tokenFile,
         logging: parameters.logging,
         loggingModelOutline: parameters.loggingModelOutline,

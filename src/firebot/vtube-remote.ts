@@ -1,6 +1,7 @@
-import { ScriptModules } from "@crowbartools/firebot-custom-scripts-types";
+import { IntegrationDefinition, IntegrationManager, ScriptModules } from "@crowbartools/firebot-custom-scripts-types";
 import { ApiClient, IClientCallConfig } from "vtubestudio";
 import * as WebSocket from "ws";
+const EventEmitter = require("events");
 
 import {
     AvailableModelsVariable,
@@ -26,10 +27,12 @@ import {
     BackgroundChangedEvent,
     ModelConfigChangedEvent,
     ModelMovedEvent,
-    ModelOutlineEvent
+    ModelOutlineEvent,
+    ModelClickedEvent
 } from "./constants";
 
 import { logger } from "../logger";
+import { FirebotParameterCategories, FirebotParams } from "@crowbartools/firebot-custom-scripts-types/types/modules/firebot-parameters";
 
 
 let fs: ScriptModules["fs"]
@@ -56,6 +59,7 @@ export function initRemote(
         ip,
         port,
         tokenFile,
+        onlyClicksOnModel,
         logging,
         loggingModelOutline,
         forceConnect,
@@ -63,6 +67,7 @@ export function initRemote(
         ip: string;
         port: number;
         tokenFile: string;
+        onlyClicksOnModel: boolean;
         logging: boolean;
         loggingModelOutline: boolean;
         forceConnect?: boolean;
@@ -75,7 +80,15 @@ export function initRemote(
     eventManager = modules.eventManager;
     fs = modules.fs;
     logging = logging ?? false
-    maintainConnection(ip, port, tokenFile, logging, loggingModelOutline, forceConnect);
+    maintainConnection(
+        ip,
+        port,
+        tokenFile,
+        logging,
+        onlyClicksOnModel,
+        loggingModelOutline,
+        forceConnect
+    );
 }
 
 export async function getAvailableModels(): Promise<AvailableModelsVariable> {
@@ -239,8 +252,7 @@ export async function loadItem(
     flipped?: boolean,
     locked?: boolean,
     unloadWhenPluginDisconnects?: boolean,
-
-): Promise<{ instanceID:string, fileName:string }> {
+): Promise<{ instanceID: string, fileName: string }> {
     let data: {
         fileName: string;
         positionX?: number;
@@ -397,6 +409,7 @@ async function maintainConnection(
     ip: string,
     port: number,
     tokenFile: string,
+    onlyClicksOnModel: boolean,
     logging: boolean,
     loggingModelOutline: boolean,
     forceClose = false
@@ -454,6 +467,7 @@ async function maintainConnection(
             }
 
             vtube.on("connect", async () => {
+
                 const stats = await vtube.statistics()
                 logger.debug(`Connected to VTubeStudio v${stats.vTubeStudioVersion}`)
                 console.log('Getting list of available models')
@@ -547,6 +561,21 @@ async function maintainConnection(
                         }
                     );
                 }, {})
+
+                await vtube.events.modelClicked.subscribe((data) => {
+                    if (logging) {
+                        logger.debug("modelClicked", data)
+                    }
+                    eventManager?.triggerEvent(
+                        VTUBE_EVENT_SOURCE_ID,
+                        ModelClickedEvent,
+                        {
+                            data
+                        }
+                    );
+                }, {
+                    onlyClicksOnModel
+                })
             })
 
             vtube.on("disconnect", () => {
@@ -556,7 +585,7 @@ async function maintainConnection(
                 try {
                     logger.info("VtubeStudo Connection lost, attempting again in 10 secs.");
                     reconnectTimeout = setTimeout(
-                        () => maintainConnection(ip, port, tokenFile, logging, loggingModelOutline),
+                        () => maintainConnection(ip, port, tokenFile, onlyClicksOnModel, logging, loggingModelOutline),
                         10000
                     );
                 } catch (err) {
@@ -574,7 +603,7 @@ async function maintainConnection(
                 logger.debug(error);
             }
             reconnectTimeout = setTimeout(
-                () => maintainConnection(ip, port, tokenFile, logging, loggingModelOutline),
+                () => maintainConnection(ip, port, tokenFile, onlyClicksOnModel, logging, loggingModelOutline),
                 10000
             );
         }

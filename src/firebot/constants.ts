@@ -5,3 +5,4 @@ export const BackgroundChangedEvent = "vtube-background-changed";
 export const ModelConfigChangedEvent = "vtube-model-config-changed";
 export const ModelOutlineEvent = "vtube-model-outline";
 export const ModelMovedEvent = "vtube-model-moved";
+export const ModelClickedEvent = "vtube-model-clicked"

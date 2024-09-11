@@ -6,7 +6,8 @@ import {
     BackgroundChangedEvent,
     ModelConfigChangedEvent,
     ModelMovedEvent,
-    ModelOutlineEvent
+    ModelOutlineEvent, 
+    ModelClickedEvent
 } from "../constants";
 
 export const VTUBEEventSource: EventSource = {
@@ -57,6 +58,12 @@ export const VTUBEEventSource: EventSource = {
             id: ModelOutlineEvent,
             name: "VTUBE Model Outline Changed",
             description: "When the outline of the model changes",
+            manualMetadata: {},
+        },
+        {
+            id: ModelClickedEvent,
+            name: "VTUBE Model Clicked",
+            description: "When the Model is clicked",
             manualMetadata: {},
         },
     ],

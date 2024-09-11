@@ -6,6 +6,9 @@ export type vTubeSettings = {
         port: number;
         tokenFile: string;
     };
+    config:{
+        onlyClicksOnModel: boolean;
+    };
     misc: {
         logging: boolean;
 
@@ -16,6 +19,7 @@ export type vTubeParams = {
     ipAddress: string;
     port: number;
     tokenFile: string;
+    onlyClicksOnModel: boolean;
     logging: boolean;
     loggingModelOutline: boolean;
 };
