@@ -30,6 +30,16 @@ export const loadItemEffect: Firebot.EffectType<{
     description: "Load a new item to the scene",
     icon: "fad fa-box-full",
     categories: ["common"],
+    //@ts-expect-error
+    outputs: [{
+      label: "Loaded Item Instance ID",
+      defaultName: "itemInstanceID",
+      description: "When loading items into the VTube Studio scene, they are given a unique, random ID."
+    }, {
+      label: "Loaded Item Filename",
+      defaultName: "itemFileName",
+      description: "When adding items to the VTube Studio items folder, they are assigned a filename."
+    }]
   },
   /**
   * The HTML template for the Options view (ie options when effect is added to something such as a button.
@@ -59,13 +69,13 @@ export const loadItemEffect: Firebot.EffectType<{
                     <input ng-model="effect.positionY" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
               </div> 
               <div class="input-group" style="margin-top:10px" >
-                    <span class="input-group-addon" id="delay-length-effect-type">Rotation</span>
-                    <input ng-model="effect.rotation" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
-              </div>
-              <div class="input-group" style="margin-top:10px" >
                     <span class="input-group-addon" id="delay-length-effect-type">Size</span>
                     <input ng-model="effect.size" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
               </div> 
+              <div class="input-group" style="margin-top:10px" >
+                    <span class="input-group-addon" id="delay-length-effect-type">Rotation</span>
+                    <input ng-model="effect.rotation" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
+              </div>
               <div class="input-group" style="margin-top:10px" >
                     <span class="input-group-addon" id="delay-length-effect-type">Order</span>
                     <input ng-model="effect.order" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
@@ -164,8 +174,8 @@ export const loadItemEffect: Firebot.EffectType<{
       event.effect.fileName,
       event.effect.positionX,
       event.effect.positionY,
-      event.effect.rotation,
       event.effect.size,
+      event.effect.rotation,
       event.effect.fadeTime,
       event.effect.order,
       event.effect.failIfOrderTaken,

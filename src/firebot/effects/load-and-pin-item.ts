@@ -41,7 +41,7 @@ export const loadPinItemEffect: Firebot.EffectType<EffectType> = {
     */
     optionsTemplate: `
        <eos-container header="Item selection">
-          <ui-select ng-model="itemSelected" on-select="selectItem($select.selected.instanceID, $select.selected.fileName)">
+          <ui-select ng-model="itemSelected" on-select="selectItem($select.selected.fileName)">
           <ui-select-match placeholder="Select an Item...">{{$select.selected.fileName}}</ui-select-match>
           <ui-select-choices repeat="item in itemCollections | filter: {fileName: $select.search}">
             <div ng-bind-html="item.fileName | highlight: $select.search"></div>
@@ -69,12 +69,12 @@ export const loadPinItemEffect: Firebot.EffectType<EffectType> = {
                     <input ng-model="effect.positionY" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
               </div>
               <div class="input-group" style="margin-top:10px" >
-                    <span class="input-group-addon" id="delay-length-effect-type">Rotation</span>
-                    <input ng-model="effect.rotation" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
-              </div>
-              <div class="input-group" style="margin-top:10px" >
                     <span class="input-group-addon" id="delay-length-effect-type">Size</span>
                     <input ng-model="effect.size" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
+              </div>
+              <div class="input-group" style="margin-top:10px" >
+                    <span class="input-group-addon" id="delay-length-effect-type">Rotation</span>
+                    <input ng-model="effect.rotation" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
               </div>
               <div class="input-group" style="margin-top:10px" >
                     <span class="input-group-addon" id="delay-length-effect-type">Order</span>
@@ -134,6 +134,10 @@ export const loadPinItemEffect: Firebot.EffectType<EffectType> = {
             <button style="margin-top:3px" class="btn btn-link" ng-click="reloadAvailableModels()">Refresh Model Collection</button>
             <span class="muted">(Make sure VTube Studio is running and Connected)</span>
           </p>
+          <div class="input-group" style="margin-top:10px; margin-bottom:10px;" >
+            <span class="input-group-addon" id="delay-length-effect-type">Art Mesh ID</span>
+            <input ng-model="effect.data.pinInfo.artMeshID" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="string">
+          </div>
       </eos-container>
       <eos-container header="Position">
              <div style="padding-top:10px; padding-bottom:10px; display: inline-flex; width: 100%;">
@@ -205,6 +209,7 @@ export const loadPinItemEffect: Firebot.EffectType<EffectType> = {
         $scope.angleRelativeTo = ['RelativeToWorld' , 'RelativeToCurrentItemRotation' , 'RelativeToModel' , 'RelativeToPinPosition']
         $scope.sizeRelativeTo = ['RelativeToWorld' , 'RelativeToCurrentItemSize']
         $scope.vertexPinType = ['Provided', 'Center', 'Random']
+
         if ($scope.effect.data == null) {
             $scope.effect.data = {};
             $scope.effect.data.pinInfo = {};
@@ -214,16 +219,16 @@ export const loadPinItemEffect: Firebot.EffectType<EffectType> = {
         $scope.modelCollections = [];
         $scope.selectModel = (modelID: string, modelName: string) => {
             $scope.effect.data.pinInfo.modelID = modelID;
-            console.log($scope.effect.data.pinInfo)
+            //console.log($scope.effect.data.pinInfo)
+            $scope.effect.modelName = modelName;
         };
         
         $scope.getAvailableModels = () => {
             $q.when(backendCommunicator.fireEventAsync("vtube-get-available-models")).then(
                 (modelCollections: AvailableModelsVariable) => {
                     $scope.modelCollections = modelCollections.availableModels ?? [];
-                    $scope.modelSelected = $scope.modelCollections.find((model: { modelName: string; }) => {
-                        model.modelName === $scope.effect.modelName
-                    });
+                    $scope.modelSelected = $scope.modelCollections.find((model: { modelID: string; }) =>
+                        model.modelID === $scope.effect.data.pinInfo.modelID);
                 });
         };
 
@@ -238,10 +243,9 @@ export const loadPinItemEffect: Firebot.EffectType<EffectType> = {
 
         $scope.itemCollections = [];
 
-        $scope.selectItem = (instanceID: string, fileName: string) => {
-            console.log(instanceID)
-            $scope.effect.data.itemInstanceID = instanceID;
-            console.log($scope.effect.data.itemInstanceID)
+        $scope.selectItem = (fileName: string) => {
+            $scope.effect.data.itemInstanceID = "";
+            //console.log($scope.effect.data.itemInstanceID)
             $scope.effect.fileName = fileName;
         };
 
@@ -249,7 +253,7 @@ export const loadPinItemEffect: Firebot.EffectType<EffectType> = {
             $q.when(backendCommunicator.fireEventAsync("vtube-get-item-list")).then(
                 (itemCollections: ItemListVariable) => {
                     $scope.itemCollections = itemCollections.availableItemFiles ?? [];
-                    $scope.selected = $scope.itemCollections.find((item: { fileName: string; }) =>
+                    $scope.itemSelected = $scope.itemCollections.find((item: { fileName: string; }) =>
                         item.fileName === $scope.effect.fileName);
                 });
         };
@@ -261,6 +265,8 @@ export const loadPinItemEffect: Firebot.EffectType<EffectType> = {
                     $scope.itemCollections = itemCollections.availableItemFiles ?? [];
                 });
         };
+
+        //console.log($scope.effect)
     },
     /**
     * When the effect is triggered by something
@@ -268,7 +274,7 @@ export const loadPinItemEffect: Firebot.EffectType<EffectType> = {
     */
     optionsValidator: effect => {
         const errors = [];
-        if (effect.data.itemInstanceID == null) {
+        if (effect.fileName == null) {
             errors.push("Please select a Item.");
         }
         return errors;
@@ -277,12 +283,13 @@ export const loadPinItemEffect: Firebot.EffectType<EffectType> = {
     * When the effect is triggered by something
     */
     onTriggerEvent: async event => {
+        //console.log(event.effect);
         let item = await loadItem(
             event.effect.fileName,
             event.effect.positionX,
             event.effect.positionY,
-            event.effect.rotation,
             event.effect.size,
+            event.effect.rotation,
             event.effect.fadeTime,
             event.effect.order,
             event.effect.failIfOrderTaken,
@@ -293,7 +300,7 @@ export const loadPinItemEffect: Firebot.EffectType<EffectType> = {
             event.effect.unloadWhenPluginDisconnects,
         );
         event.effect.data.itemInstanceID = item.instanceID;
-        console.log(event.effect.data)
+        //console.log(event.effect.data)
         await pinItem(
             event.effect.data
         );
