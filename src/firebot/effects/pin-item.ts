@@ -84,6 +84,11 @@ export const pinItemEffect: Firebot.EffectType<EffectType> = {
                     <input ng-model="effect.data.pinInfo.size" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
              </div>
 
+             <div class="input-group" style="margin-top:10px; margin-bottom:10px;" >
+                <span class="input-group-addon" id="delay-length-effect-type">Art Mesh ID</span>
+                <input ng-model="effect.data.pinInfo.artMeshID" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="string">
+            </div>
+
              <div class="input-group" style="margin-top:10px" >
                     <span class="input-group-addon" id="delay-length-effect-type">vertexID1</span>
                     <input ng-model="effect.data.pinInfo.vertexID1" type="text" class="form-control" aria-describedby="delay-length-effect-type" type="text" replace-variables="number">
