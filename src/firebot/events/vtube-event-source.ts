@@ -7,7 +7,8 @@ import {
     ModelConfigChangedEvent,
     ModelMovedEvent,
     ModelOutlineEvent, 
-    ModelClickedEvent
+    ModelClickedEvent,
+    PostProcessingEvent
 } from "../constants";
 
 export const VTUBEEventSource: EventSource = {
@@ -65,6 +66,15 @@ export const VTUBEEventSource: EventSource = {
             name: "VTUBE Model Clicked",
             description: "When the Model is clicked",
             manualMetadata: {},
+        },
+        {
+            id: PostProcessingEvent,
+            name: "VTUBE Post Processing Changed",
+            description: "When the post processing effect system is turned on/off, or a preset is loaded/unloaded",
+            manualMetadata: {
+                currentOnState: "Test Current On State",
+                currentPreset: "Test Current Preset"
+            },
         },
     ],
 };

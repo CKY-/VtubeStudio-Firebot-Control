@@ -28,7 +28,8 @@ import {
     ModelConfigChangedEvent,
     ModelMovedEvent,
     ModelOutlineEvent,
-    ModelClickedEvent
+    ModelClickedEvent,
+    PostProcessingEvent
 } from "./constants";
 
 import { logger } from "../logger";
@@ -576,6 +577,19 @@ async function maintainConnection(
                 }, {
                     onlyClicksOnModel
                 })
+
+                await vtube.events.postProcessing.subscribe((data) => {
+                    if (logging) {
+                        logger.debug("postProcessing", data);
+                    }
+                    eventManager?.triggerEvent(
+                        VTUBE_EVENT_SOURCE_ID,
+                        PostProcessingEvent,
+                        {
+                            data
+                        }
+                    );
+                }, {})
             })
 
             vtube.on("disconnect", () => {
