@@ -16,13 +16,17 @@ module.exports = {
     filename: `${packageJson.scriptOutputName}.js`,
   },
   resolve: {
-    extensions: [".ts", ".js"],
+    extensions: [".ts", ".js", ".html"],
   },
   module: {
     rules: [
       {
         test: /\.ts$/,
         loader: "ts-loader",
+      },
+      {
+        test: /\.html$/i,
+        loader: 'raw-loader',
       },
     ],
   },
