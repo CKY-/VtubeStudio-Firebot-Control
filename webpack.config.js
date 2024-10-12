@@ -26,7 +26,7 @@ module.exports = {
       },
       {
         test: /\.html$/i,
-        loader: 'raw-loader',
+        loader: "raw-loader",
       },
     ],
   },
