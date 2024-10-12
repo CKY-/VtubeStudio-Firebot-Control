@@ -73,7 +73,7 @@ export const VTUBEEventSource: EventSource = {
             description: "When the post processing effect system is turned on/off, or a preset is loaded/unloaded",
             manualMetadata: {
                 currentOnState: "Test Current On State",
-                currentPreset: "Test Current Preset"
+                currentPreset: "Test Current Presets"
             },
         },
     ],
