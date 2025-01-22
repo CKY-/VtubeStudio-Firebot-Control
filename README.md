@@ -6,6 +6,8 @@
 3. Download the latest **VtubeScript.js** file from [Releases](https://github.com/cky-/Vtube/releases)
 4. Add the **VtubeScript.js** as a startup script in Firebot (Settings > Advanced > Startup Scripts)
 5. In the settings change your ports and ipAddress to match VTS settings
+- The ip address of the computer running Vtube. Use 'localhost' for the same computer.
+- Port the Vtube Websocket is running on. Default is 8001.
 6. Create a text file (.txt) with any name you'd like and save it either in the scripts folder (which would be my recommendation), or somewhere on your hard drive that you'll easily be able to find. This will be used as the Token File.
 7. Restart Firebot and enjoy!
 
